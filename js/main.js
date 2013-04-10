@@ -20,9 +20,6 @@ $('#display-page').bind('pageinit', function(event){
 
 });
 
-$( document ).delegate("#front-page", "pageinit", function() {
-  //alert('A page with an id of "front-page" was just created by jQuery Mobile!');
-});
 
 
 
