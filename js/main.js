@@ -3,6 +3,11 @@
 // Joshua Wisecup
 // Term 1304
 
+
+$(document).bind('mobileinit', function(event){
+
+});
+
 $('#front-page').live('pagebeforeshow', function(){
 	//alert("hello world");
 });	
@@ -16,7 +21,7 @@ $('#display-page').bind('pageinit', function(event){
 });
 
 $( document ).delegate("#front-page", "pageinit", function() {
-  alert('A page with an id of "front-page" was just created by jQuery Mobile!');
+  //alert('A page with an id of "front-page" was just created by jQuery Mobile!');
 });
 
 
