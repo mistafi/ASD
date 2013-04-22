@@ -21,7 +21,29 @@ $('#edit-page').on('pageinit', function(){
 	
 	showSubmit();
 	
+
+	//function to clear the form
+	$.fn.clearForm = function() {
+		return this.each(function() {
+		var type = this.type, tag = this.tagName.toLowerCase();
+			if (tag == 'form')
+				return $(':input',this).clearForm();
+			if (type == 'text' || type == 'password' || tag == 'textarea')
+				this.value = '';
+			else if (type == 'checkbox' || type == 'radio')
+				this.checked = false;
+			else if (tag == 'select')
+				this.selectedIndex = -1;
+		});
+	};
+	//reset the form by calling the clearform fn
+	$('#reset').clearForm();
 	
+
+});
+
+$('#display-page').on('pageinit', function(event){
+
 //	$.ajax({
 //		url: "js/json.js",
 //		type: "GET",
@@ -50,33 +72,36 @@ $('#edit-page').on('pageinit', function(){
 			autoFillDefault();
 		}
 		
+		var makeDiv = $('#main').after( $("<div></div>").addClass('items') );
+		var makeList = $('.items').after($('<ol></ol>').addClass('unstyled') );
+	
 		//write data from local storage to the browser
-		var makeNewDiv = $('#main').appendTo("div");
-		makeNewDiv.attr("id", "items");
-		var makeNewList = $('#items').appendTo("ol");
-		makeNewList.attr("class", "unstyled");
-		makeNewDiv.appendTo(makeNewList);
-		document.body.appendChild(makeNewDiv);
-		$("#items").show();													
+		var createList = function(){
+			makeDiv.after(makeList);
+		}
+		
+		createList();
+		$(".items").show();	
+
 
 		for (var i=0, len=localStorage.length; i<len;i++){
 			var makeNewLi = document.createElement("li");
 			var navLinksLi = document.createElement("li");
-			makeNewList.appendChild(makeNewLi);
+			makeList.append(makeNewLi);
 			var key = localStorage.key(i);
 			var value = localStorage.getItem(key);
 			//Convert the string from local storage value back to an object using JSON.parse()
 			var obj = JSON.parse(value);
 			var makeSubList = document.createElement("ul");
 			makeSubList.setAttribute("class", "unstyled well");
-			makeNewLi.appendChild(makeSubList);
+			makeNewLi.append(makeSubList);
 			getCatImage(obj.dropdownSelect[1],makeSubList);
 			for(var n in obj){
 				var makeSubli = document.createElement("li");
-				makeSubList.appendChild(makeSubli);
+				makeSubList.append(makeSubli);
 				var optSubText = obj[n][0]+" "+obj[n][1];
 				makeSubli.innerHTML = optSubText;
-				makeSubList.appendChild(navLinksLi);
+				makeSubList.append(navLinksLi);
 			}
 			makeNavLinksLi(localStorage.key(i), navLinksLi); // create edit and delete links for each item in local storage
 		}
@@ -98,38 +123,7 @@ $('#edit-page').on('pageinit', function(){
 		}
 	};	
 	
-	
-
-	//function to clear the form
-	$.fn.clearForm = function() {
-		return this.each(function() {
-		var type = this.type, tag = this.tagName.toLowerCase();
-			if (tag == 'form')
-				return $(':input',this).clearForm();
-			if (type == 'text' || type == 'password' || tag == 'textarea')
-				this.value = '';
-			else if (type == 'checkbox' || type == 'radio')
-				this.checked = false;
-			else if (tag == 'select')
-				this.selectedIndex = -1;
-		});
-	};
-	//reset the form by calling the clearform fn
-	$('#reset').clearForm();
-	
-	
-	//Set Link and Submit Click Events
-	var displayDataLink = $("#displayDataLink");
-	$("#displayDataLink").on("click", getStorageData);
-	var clearDataLink = $("#clearData");
-	$("#clearData").on("click", clearLocalStorage);			
-	var parsePebbleForm = function(data){
-		console.log(data);
-	}
-
-});
-
-$('#display-page').bind('pageinit', function(event){
+	getStorageData();
 
 });
 

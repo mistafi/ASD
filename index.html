@@ -138,13 +138,6 @@
             </header><!-- /header -->
 
             <div id="main" data-role="content">
-               
-               	<div data-role="navbar">
-                    <ul class="nav nav-pills">
-                      <li><a id="clearData" href="#"><i class="icon-remove"></i> Clear Stored Data</a></li>
-                      <li><a id="displayDataLink" href="#editItemPage"><i class="icon-list"></i> Display Data</a></li>
-                    </ul>  
-				</div>  
                  
                  <ul id="errorMessages"></ul>
                  <h2>Add a Pebble</h2>
@@ -243,7 +236,17 @@
             </header><!-- /header -->
 
             <div id="main" data-role="content">
-                <p>Page content goes here.</p>
+            
+            	<!-- remove this later -->
+                 <div data-role="navbar">
+                    <ul class="nav nav-pills">
+                      <li><a id="clearData" href="#"><i class="icon-remove"></i> Clear Stored Data</a></li>
+                      <li><a id="displayDataLink" href="#display-page"><i class="icon-list"></i> Display Data</a></li>
+                    </ul>  
+				</div> 
+                
+                
+                 
             </div><!-- /content -->
 
             <footer data-role="footer" data-position="fixed">
@@ -277,7 +280,7 @@
                         <li><a href="#front-page" data-icon="star">Home</a></li>
                         <li><a href="#about-page" data-icon="info">About</a></li>
                         <li><a href="#edit-page" data-icon="gear">Add New</a></li>
-                        <li><a href="#" data-icon="grid" class="ui-btn-active">View</a></li>
+                        <li><a href="#display-page" data-icon="grid">View</a></li>
                     </ul>
                 </nav>
             </footer><!-- /footer -->
