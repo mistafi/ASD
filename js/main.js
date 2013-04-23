@@ -194,9 +194,54 @@ $('#edit-page').on('pageinit', function(){
 			$("#addfav").attr("checked", "checked");
 		}
 	}
+	
+	
+	
+		$.fn.storeTheData = function(data, key){
+		//if no key, then it's brand new and we need a new key
+		if(!key){
+		var id 				= Math.floor(Math.random()*100000001);
+		}else {
+			//set the id to the existing key so it will not overwrite the data
+			id = key;
+		}
+		//Gather up our form field values and store in an object
+		//Object properties contain an array with form label and input values
+		getCheckBoxValue();
+		var item			= {};
+		item.dropdownSelect	= ["Type:", $("#dropdownSelect").data()];
+		item.inputName		= ["Name:", $("#inputName").data()];
+		item.inputAddress	= ["Address:", $("#inputAddress").data()];
+		item.inputAddress2	= ["Address2:", $("#inputAddress2").data()];
+		item.inputCity		= ["City:", $("#inputCity").data()];
+		item.inputState		= ["State:", $("#inputState").data()];
+		item.inputZip		= ["Zip Code:", $("#inputZip").data()];
+		item.inputRating	= ["Rating:", $("#inputRating").data()];
+		item.inputDate		= ["Date of Visit:", $("#inputDate").data()];
+		//item.inputHidden	= ["Hidden:", ge("inputHidden").data()];
+		item.inputArea		= ["Notes:", $("#inputArea").data()];
+		item.inputCheck		= ["Favorite:", favoriteValue];
+		
+		//Save data into local storage. Use stringify to convert object into a string		
+		localStorage.setItem('id', JSON.stringify(item));
+		
+		//localStorage.setItem("test","hello");
+		//alert(localStorage.length);
+		alert("Pebble Saved! You have " + localStorage.length + " pebbles saved.");
+	}	
+	
+	function getCheckBoxValue(){
+		if($("#addfav").checked){
+			favoriteValue = $("#addfav").data();
+		}else{
+			favoriteValue = "No"
+		}
+	}
+	
+	
 			
 	//Remove inital listener from save button
-	$(submit).off("click", storeTheData);
+	$(submit).off('click');
 	
 	
 		$.fn.validate = function (v){
@@ -261,7 +306,7 @@ $('#edit-page').on('pageinit', function(){
 		}else{
 			//if no errors, save data. send key val from editData function
 			//remember this key value was passed through editSubmit as a property
-			storeTheData(this.key);
+			$(submit).storeTheData(this.key);
 		}
 
 		
@@ -290,48 +335,6 @@ $('#edit-page').on('pageinit', function(){
 			alert("Pebble was not deleted.");
 		}
 	}	
-
-
-		$.fn.storeTheData = function(data, key){
-		//if no key, then it's brand new and we need a new key
-		if(!key){
-		var id 				= Math.floor(Math.random()*100000001);
-		}else {
-			//set the id to the existing key so it will not overwrite the data
-			id = key;
-		}
-		//Gather up our form field values and store in an object
-		//Object properties contain an array with form label and input values
-		getCheckBoxValue();
-		var item			= {};
-		item.dropdownSelect	= ["Type:", $("#dropdownSelect").data()];
-		item.inputName		= ["Name:", $("#inputName").data()];
-		item.inputAddress	= ["Address:", $("#inputAddress").data()];
-		item.inputAddress2	= ["Address2:", $("#inputAddress2").data()];
-		item.inputCity		= ["City:", $("#inputCity").data()];
-		item.inputState		= ["State:", $("#inputState").data()];
-		item.inputZip		= ["Zip Code:", $("#inputZip").data()];
-		item.inputRating	= ["Rating:", $("#inputRating").data()];
-		item.inputDate		= ["Date of Visit:", $("#inputDate").data()];
-		//item.inputHidden	= ["Hidden:", ge("inputHidden").data()];
-		item.inputArea		= ["Notes:", $("#inputArea").data()];
-		item.inputCheck		= ["Favorite:", favoriteValue];
-		
-		//Save data into local storage. Use stringify to convert object into a string		
-		localStorage.setItem(id, JSON.stringify(item));
-		
-		//localStorage.setItem("test","hello");
-		//alert(localStorage.length);
-		alert("Pebble Saved! You have " + localStorage.length + " pebbles saved.");
-	}	
-	
-	function getCheckBoxValue(){
-		if(document.getElementById("addfav").checked){
-			favoriteValue = $("#addfav").data();
-		}else{
-			favoriteValue = "No"
-		}
-	}
 	
 		
 	var	deleteItem = function (){
