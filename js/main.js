@@ -198,13 +198,82 @@ $('#edit-page').on('pageinit', function(){
 	//Remove inital listener from save button
 	$(submit).off("click", storeTheData);
 	
+	
+		$.fn.validate = function (v){
+		//define the elements we want to check
+		var checkGroup = $("#dropdownSelect");
+		var checkName = $("#inputName");
+		var checkAddress = $("#inputAddress");
+		var checkCity = $("#inputCity");
+		var checkState = $("#inputState");
+		
+		//reset error messages
+		$(errMessage).innerHTML = "";
+		$(checkGroup).css("border" ,"1px solid #cccccc");
+		$(checkName).css("border" ,"1px solid #cccccc");
+		$(checkAddress).css("border" ,"1px solid #cccccc");
+		$(checkCity).css("border" ,"1px solid #cccccc");
+		$(checkState).css("border" ,"1px solid #cccccc");
+
+		//get error messages
+		var messagesArray = [];
+		
+		//group validation
+		if(checkGroup.data() === "--Choose a Type--"){
+			var checkGroupError = "Please choose a group."
+			$(checkGroup).css("border" ,"1px solid red");
+			messagesArray.push(checkGroupError);
+		}
+		//name validation
+		if(checkName.data() === ""){
+			var checkNameError = "Please enter a name."
+			$(checkName).css("border" ,"1px solid red");
+			messagesArray.push(checkNameError);
+		}
+		//address validation
+		if(checkAddress.data() === ""){
+			var checkAddressError = "Please enter an address."
+			$(checkAddress).css("border" ,"1px solid red");
+			messagesArray.push(checkAddressError);
+		}
+		//city validation
+		if(checkCity.data() === ""){
+			var checkCityError = "Please enter a city."
+			$(checkCity).css("border" ,"1px solid red");
+			messagesArray.push(checkCityError);
+		}
+		//state validation
+		if(checkState.data() === ""){
+			var checkStateError = "Please enter a state."
+			$(checkState).css("border" ,"1px solid red");
+			messagesArray.push(checkStateError);
+		}
+		
+		//if there are errors, display them
+		if(messagesArray.length >= 1){
+			for(var i=0, j=messagesArray.length; i < j; i++){
+				var txt = document.createElement("li");
+				txt.innerHTML = messagesArray[i];
+				errMessage.appendChild(txt);
+			}
+			v.preventDefault();
+			return false;
+		}else{
+			//if no errors, save data. send key val from editData function
+			//remember this key value was passed through editSubmit as a property
+			storeTheData(this.key);
+		}
+
+		
+	}
+	
 		
 	//change submit button to edit button
 //	document.getElementById("submit").data() = "Edit Pebble";
 	var editSubmit = $("#submit2");
 	
 	//save key value for reuse
-	$(editSubmit).on("click", validate);
+	$(editSubmit).validate();
 	editSubmit.key = this.key;
 	
 	itemsDiv = $("#items");
@@ -221,8 +290,9 @@ $('#edit-page').on('pageinit', function(){
 			alert("Pebble was not deleted.");
 		}
 	}	
-	
-		var storeTheData = function(data, key){
+
+
+		$.fn.storeTheData = function(data, key){
 		//if no key, then it's brand new and we need a new key
 		if(!key){
 		var id 				= Math.floor(Math.random()*100000001);
@@ -289,75 +359,6 @@ $('#edit-page').on('pageinit', function(){
 	
 	
 	
-		function validate(v){
-		//define the elements we want to check
-		var checkGroup = $("#dropdownSelect");
-		var checkName = $("#inputName");
-		var checkAddress = $("#inputAddress");
-		var checkCity = $("#inputCity");
-		var checkState = $("#inputState");
-		
-		//reset error messages
-		errMessage.innerHTML = "";
-		$(checkGroup).css("border" ,"1px solid #cccccc");
-		$(checkName).css("border" ,"1px solid #cccccc");
-		$(checkAddress).css("border" ,"1px solid #cccccc");
-		$(checkCity).css("border" ,"1px solid #cccccc");
-		$(checkState).css("border" ,"1px solid #cccccc");
-
-		//get error messages
-		var messagesArray = [];
-		
-		//group validation
-		if(checkGroup.data() === "--Choose a Type--"){
-			var checkGroupError = "Please choose a group."
-			$(checkGroup).css("border" ,"1px solid red");
-			messagesArray.push(checkGroupError);
-		}
-		//name validation
-		if(checkName.data() === ""){
-			var checkNameError = "Please enter a name."
-			$(checkName).css("border" ,"1px solid red");
-			messagesArray.push(checkNameError);
-		}
-		//address validation
-		if(checkAddress.data() === ""){
-			var checkAddressError = "Please enter an address."
-			$(checkAddress).css("border" ,"1px solid red");
-			messagesArray.push(checkAddressError);
-		}
-		//city validation
-		if(checkCity.data() === ""){
-			var checkCityError = "Please enter a city."
-			$(checkCity).css("border" ,"1px solid red");
-			messagesArray.push(checkCityError);
-		}
-		//state validation
-		if(checkState.data() === ""){
-			var checkStateError = "Please enter a state."
-			$(checkState).css("border" ,"1px solid red");
-			messagesArray.push(checkStateError);
-		}
-		
-		//if there are errors, display them
-		if(messagesArray.length >= 1){
-			for(var i=0, j=messagesArray.length; i < j; i++){
-				var txt = document.createElement("li");
-				txt.innerHTML = messagesArray[i];
-				errMessage.appendChild(txt);
-			}
-			v.preventDefault();
-			return false;
-		}else{
-			//if no errors, save data. send key val from editData function
-			//remember this key value was passed through editSubmit as a property
-			storeTheData(this.key);
-		}
-
-		
-	}
-	
-	
 		//Set Link and Submit Click Events
 	var displayDataLink = $("#displayDataLink");
 	$("#displayDataLink").on("click", getStorageData);
@@ -375,22 +376,19 @@ $('#edit-page').on('pageinit', function(){
 	
 //		makeSelectField();
 
+
+
 		var pebbleForm = $('#pebbleForm');
 		    $('#pebbleForm').validate({
-			invalidHandler: function(form, validator),
-			
+			invalidHandler: function(form, validator) {
+			},
 			submitHandler: function() {
 		var data = pebbleForm.serializeArray();
 			parsePebbleForm(data);
 			storeTheData(data);
-		})
+		}
+		
 
-
-
-           $('some selector').validate({
-                validateOPtions1: 'value1',
-                validateOPtions2: 'value2'
-            });
 
 
 		
