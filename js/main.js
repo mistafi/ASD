@@ -40,9 +40,9 @@ $('#edit-page').on('pageinit', function(){
 	$('#reset').clearForm();
 	
 
-});
+//});
 
-$('#display-page').on('pageinit', function(event){
+//$('#display-page').on('pageinit', function(event){
 
 //	$.ajax({
 //		url: "js/json.js",
@@ -194,9 +194,7 @@ $('#display-page').on('pageinit', function(event){
 			$("#addfav").attr("checked", "checked");
 		}
 	}
-	
-	
-		
+			
 	//Remove inital listener from save button
 	$(submit).off("click", storeTheData);
 	
@@ -358,6 +356,45 @@ $('#display-page').on('pageinit', function(event){
 
 		
 	}
+	
+	
+		//Set Link and Submit Click Events
+	var displayDataLink = $("#displayDataLink");
+	$("#displayDataLink").on("click", getStorageData);
+	var clearDataLink = $("#clearData");
+	$("#clearData").on("click", clearLocalStorage);			
+	var parsePebbleForm = function(data){
+		console.log(data);
+	}
+
+	//Variable defaults
+	var pebbleGroups = ["--Choose a Type--", "Restaurant", "Gas Station", "Retail Store"],
+		favoriteValue = "No",
+		errMessage = $("#errorMessages");
+	;
+	
+//		makeSelectField();
+
+		var pebbleForm = $('#pebbleForm');
+		    $('#pebbleForm').validate({
+			invalidHandler: function(form, validator),
+			
+			submitHandler: function() {
+		var data = pebbleForm.serializeArray();
+			parsePebbleForm(data);
+			storeTheData(data);
+		})
+
+
+
+           $('some selector').validate({
+                validateOPtions1: 'value1',
+                validateOPtions2: 'value2'
+            });
+
+
+		
+	});
 	
 	getStorageData();
 
