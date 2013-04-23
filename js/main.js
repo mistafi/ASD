@@ -253,7 +253,7 @@ $('#display-page').on('pageinit', function(event){
 		var checkState = $("#inputState");
 		
 		//reset error messages
-		$(errMessage).html() = "";
+		$("#errorMessages").html() = "";
 		$(checkGroup).css("border" ,"1px solid #cccccc");
 		$(checkName).css("border" ,"1px solid #cccccc");
 		$(checkAddress).css("border" ,"1px solid #cccccc");
@@ -297,9 +297,9 @@ $('#display-page').on('pageinit', function(event){
 		//if there are errors, display them
 		if(messagesArray.length >= 1){
 			for(var i=0, j=messagesArray.length; i < j; i++){
-				var txt = document.createElement("li");
+				var txt = $("<li/>");
 				txt.html() = messagesArray[i];
-				errMessage.appendChild(txt);
+				$("#errorMessages").append(txt);
 			}
 			v.preventDefault();
 			return false;
