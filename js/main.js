@@ -107,7 +107,7 @@ $('#display-page').on('pageinit', function(event){
 				
 				var optSubText = obj[n][0]+" "+obj[n][1];
 				
-				makeSubli.innerHTML = optSubText;
+				makeSubli.html() = optSubText;
 				
 				makeSubList.append(navLinksLi);
 			}
@@ -147,7 +147,7 @@ $('#display-page').on('pageinit', function(event){
 		
 		$(editDataLink).on("click", editDataItem);
 		
-		editDataLink.innerHTML = editDataText;
+		editDataLink.html() = editDataText;
 		
 		$(navLinksLi).append(editDataLink);
 		
@@ -163,7 +163,7 @@ $('#display-page').on('pageinit', function(event){
 		deleteDataLink.key = key;
 		var deleteDataText = "Delete Pebble";
 		$(deleteDataLink).on("click", deleteDataItem);
-		deleteDataLink.innerHTML = deleteDataText;
+		deleteDataLink.html() = deleteDataText;
 		$(navLinksLi).append(deleteDataLink);
 	
 	}
@@ -171,7 +171,7 @@ $('#display-page').on('pageinit', function(event){
 	function editDataItem(){
 	//Grab data from local storage
 	var value = localStorage.getItem(this.key);
-	var item = JSON.parse(value);
+	var item = JSON.parse.data();
 	
 	$('#submit').parent().hide();
 	$('#submit2').parent().show();
@@ -253,7 +253,7 @@ $('#display-page').on('pageinit', function(event){
 		var checkState = $("#inputState");
 		
 		//reset error messages
-		$(errMessage).innerHTML = "";
+		$(errMessage).html() = "";
 		$(checkGroup).css("border" ,"1px solid #cccccc");
 		$(checkName).css("border" ,"1px solid #cccccc");
 		$(checkAddress).css("border" ,"1px solid #cccccc");
@@ -298,7 +298,7 @@ $('#display-page').on('pageinit', function(event){
 		if(messagesArray.length >= 1){
 			for(var i=0, j=messagesArray.length; i < j; i++){
 				var txt = document.createElement("li");
-				txt.innerHTML = messagesArray[i];
+				txt.html() = messagesArray[i];
 				errMessage.appendChild(txt);
 			}
 			v.preventDefault();
