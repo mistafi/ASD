@@ -44,17 +44,17 @@ $('#edit-page').on('pageinit', function(){
 
 $('#display-page').on('pageinit', function(event){
 
-//	$.ajax({
-//		url: "js/json.js",
-//		type: "GET",
-//		dataType: "json",
-//		success: function (data, status) {
-//			console.log(status, data);
-//		},
-//		error: function (error, parseerror) {
-//			console.log(error, parseerror);
-//		}
-//	});
+	$.ajax({
+		url: "js/json.js",
+		type: "GET",
+		dataType: "json",
+		success: function (data, status) {
+			console.log(status, data);
+		},
+		error: function (error, parseerror) {
+			console.log(error, parseerror);
+		}
+	});
 	
 	//Auto Fill Local Storage as default
 	var autoFillDefault = function (){
@@ -93,7 +93,7 @@ $('#display-page').on('pageinit', function(event){
 			var key = localStorage.key(i);
 			var value = localStorage.getItem(key);
 			//Convert the string from local storage value back to an object using JSON.parse()
-			var obj = JSON.parse(value);
+			var obj = JSON.parse(data);
 			var makeSubList = $("<ul/>").addClass('unstyled well');
 			
 			makeNewLi.append(makeSubList);
@@ -253,7 +253,7 @@ $('#display-page').on('pageinit', function(event){
 		var checkState = $("#inputState");
 		
 		//reset error messages
-		$("#errorMessages").html() = "";
+		$("#errorMessages").empty();
 		$(checkGroup).css("border" ,"1px solid #cccccc");
 		$(checkName).css("border" ,"1px solid #cccccc");
 		$(checkAddress).css("border" ,"1px solid #cccccc");
