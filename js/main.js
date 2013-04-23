@@ -40,9 +40,9 @@ $('#edit-page').on('pageinit', function(){
 	$('#reset').clearForm();
 	
 
-//});
+});
 
-//$('#display-page').on('pageinit', function(event){
+$('#display-page').on('pageinit', function(event){
 
 //	$.ajax({
 //		url: "js/json.js",
@@ -197,7 +197,7 @@ $('#edit-page').on('pageinit', function(){
 	
 	
 	
-		$.fn.storeTheData = function(data, key){
+		var storeTheData = function(data, key){
 		//if no key, then it's brand new and we need a new key
 		if(!key){
 		var id 				= Math.floor(Math.random()*100000001);
@@ -306,7 +306,7 @@ $('#edit-page').on('pageinit', function(){
 		}else{
 			//if no errors, save data. send key val from editData function
 			//remember this key value was passed through editSubmit as a property
-			$(submit).storeTheData(this.key);
+			storeTheData(this.key);
 		}
 
 		
