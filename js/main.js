@@ -29,7 +29,7 @@ $('#edit-page').on('pageinit', function(){
 			if (tag == 'form')
 				return $(':input',this).clearForm();
 			if (type == 'text' || type == 'password' || tag == 'textarea')
-				this.value = '';
+				this.data() = '';
 			else if (type == 'checkbox' || type == 'radio')
 				this.checked = false;
 			else if (tag == 'select')
@@ -72,8 +72,8 @@ $('#display-page').on('pageinit', function(event){
 			autoFillDefault();
 		}
 		
-		var makeDiv = $('#main').after( $("<div></div>").addClass('items') );
-		var makeList = $('.items').after($('<ul></ul>').addClass('unstyled allData') );
+		var makeDiv = $('#main').append( $("<div/>").addClass('items') );
+		var makeList = $('.items').append($('<ul/>').addClass('unstyled allData') );
 	
 		//write data from local storage to the browser
 		var createList = function(){
@@ -113,7 +113,7 @@ $('#display-page').on('pageinit', function(event){
 			}
 			makeNavLinksLi(localStorage.key(i), navLinksLi); // create edit and delete links for each item in local storage
 		}
-		$(".editItemPage").append(makeDiv);
+		$("#main").append(makeDiv);
 //		selectDiv = document.getElementById("selectDiv");
 //		selectDiv.parentNode.removeChild("select");
 	};	
@@ -137,7 +137,7 @@ $('#display-page').on('pageinit', function(event){
 		//add edit single item link
 		var editDataLink = $("<a/>");
 		
-		editDataLink.attr ("href", "#newItem");
+		$(editDataLink).attr ("href", "#newItem");
 		
 		$(editDataLink).attr("class", "btn btn-info");
 		
@@ -145,11 +145,11 @@ $('#display-page').on('pageinit', function(event){
 		
 		var editDataText = "Edit Pebble";
 		
-		editDataLink.on("click", editDataItem);
+		$(editDataLink).on("click", editDataItem);
 		
 		editDataLink.innerHTML = editDataText;
 		
-		navLinksLi.append(editDataLink);
+		$(navLinksLi).append(editDataLink);
 		
 		//add line break
 		//var breakReturnTag = document.createElement("br");
@@ -158,13 +158,13 @@ $('#display-page').on('pageinit', function(event){
 		
 		//add delete single item link
 		var deleteDataLink = $("<a/>");
-		$(deleteDataLink).attr("href", "#editItemPage");
+		$(deleteDataLink).attr("href", "#display-page");
 		$(deleteDataLink).addClass("btn btn-danger");
 		deleteDataLink.key = key;
 		var deleteDataText = "Delete Pebble";
-		deleteDataLink.on("click", deleteDataItem);
+		$(deleteDataLink).on("click", deleteDataItem);
 		deleteDataLink.innerHTML = deleteDataText;
-		navLinksLi.append(deleteDataLink);
+		$(navLinksLi).append(deleteDataLink);
 	
 	}
 	
@@ -180,16 +180,16 @@ $('#display-page').on('pageinit', function(event){
 //	toggleTheControls("off");
 	
 	//populate the form fields with current localStorage values
-	$("#dropdownSelect").value = item.dropdownSelect[1];
-	$("#inputName").value = item.inputName[1];
-	$("#inputAddress").value = item.inputAddress[1];
-	$("#inputAddress2").value = item.inputAddress2[1];
-	$("#inputCity").value = item.inputCity[1];
-	$("#inputState").value = item.inputState[1];
-	$("#inputZip").value = item.inputZip[1];
-	$("#inputRating").value = item.inputRating[1];
-	$("#inputDate").value = item.inputDate[1];
-	$("#inputArea").value = item.inputArea[1];
+	$("#dropdownSelect").data() = item.dropdownSelect[1];
+	$("#inputName").data() = item.inputName[1];
+	$("#inputAddress").data() = item.inputAddress[1];
+	$("#inputAddress2").data() = item.inputAddress2[1];
+	$("#inputCity").data() = item.inputCity[1];
+	$("#inputState").data() = item.inputState[1];
+	$("#inputZip").data() = item.inputZip[1];
+	$("#inputRating").data() = item.inputRating[1];
+	$("#inputDate").data() = item.inputDate[1];
+	$("#inputArea").data() = item.inputArea[1];
 		if(item.inputCheck[1] == "Yes"){
 			$("#addfav").attr("checked", "checked");
 		}
@@ -202,7 +202,7 @@ $('#display-page').on('pageinit', function(event){
 	
 		
 	//change submit button to edit button
-//	document.getElementById("submit").value = "Edit Pebble";
+//	document.getElementById("submit").data() = "Edit Pebble";
 	var editSubmit = $("#submit2");
 	
 	//save key value for reuse
@@ -236,17 +236,17 @@ $('#display-page').on('pageinit', function(event){
 		//Object properties contain an array with form label and input values
 		getCheckBoxValue();
 		var item			= {};
-		item.dropdownSelect	= ["Type:", document.getElementById("dropdownSelect").value];
-		item.inputName		= ["Name:", document.getElementById("inputName").value];
-		item.inputAddress	= ["Address:", document.getElementById("inputAddress").value];
-		item.inputAddress2	= ["Address2:", document.getElementById("inputAddress2").value];
-		item.inputCity		= ["City:", document.getElementById("inputCity").value];
-		item.inputState		= ["State:", document.getElementById("inputState").value];
-		item.inputZip		= ["Zip Code:", document.getElementById("inputZip").value];
-		item.inputRating	= ["Rating:", document.getElementById("inputRating").value];
-		item.inputDate		= ["Date of Visit:", document.getElementById("inputDate").value];
-		//item.inputHidden	= ["Hidden:", ge("inputHidden").value];
-		item.inputArea		= ["Notes:", document.getElementById("inputArea").value];
+		item.dropdownSelect	= ["Type:", $("#dropdownSelect").data()];
+		item.inputName		= ["Name:", $("#inputName").data()];
+		item.inputAddress	= ["Address:", $("#inputAddress").data()];
+		item.inputAddress2	= ["Address2:", $("#inputAddress2").data()];
+		item.inputCity		= ["City:", $("#inputCity").data()];
+		item.inputState		= ["State:", $("#inputState").data()];
+		item.inputZip		= ["Zip Code:", $("#inputZip").data()];
+		item.inputRating	= ["Rating:", $("#inputRating").data()];
+		item.inputDate		= ["Date of Visit:", $("#inputDate").data()];
+		//item.inputHidden	= ["Hidden:", ge("inputHidden").data()];
+		item.inputArea		= ["Notes:", $("#inputArea").data()];
 		item.inputCheck		= ["Favorite:", favoriteValue];
 		
 		//Save data into local storage. Use stringify to convert object into a string		
@@ -259,7 +259,7 @@ $('#display-page').on('pageinit', function(event){
 	
 	function getCheckBoxValue(){
 		if(document.getElementById("addfav").checked){
-			favoriteValue = document.getElementById("addfav").value;
+			favoriteValue = $("#addfav").data();
 		}else{
 			favoriteValue = "No"
 		}
@@ -311,31 +311,31 @@ $('#display-page').on('pageinit', function(event){
 		var messagesArray = [];
 		
 		//group validation
-		if(checkGroup.value === "--Choose a Type--"){
+		if(checkGroup.data() === "--Choose a Type--"){
 			var checkGroupError = "Please choose a group."
 			$(checkGroup).css("border" ,"1px solid red");
 			messagesArray.push(checkGroupError);
 		}
 		//name validation
-		if(checkName.value === ""){
+		if(checkName.data() === ""){
 			var checkNameError = "Please enter a name."
 			$(checkName).css("border" ,"1px solid red");
 			messagesArray.push(checkNameError);
 		}
 		//address validation
-		if(checkAddress.value === ""){
+		if(checkAddress.data() === ""){
 			var checkAddressError = "Please enter an address."
 			$(checkAddress).css("border" ,"1px solid red");
 			messagesArray.push(checkAddressError);
 		}
 		//city validation
-		if(checkCity.value === ""){
+		if(checkCity.data() === ""){
 			var checkCityError = "Please enter a city."
 			$(checkCity).css("border" ,"1px solid red");
 			messagesArray.push(checkCityError);
 		}
 		//state validation
-		if(checkState.value === ""){
+		if(checkState.data() === ""){
 			var checkStateError = "Please enter a state."
 			$(checkState).css("border" ,"1px solid red");
 			messagesArray.push(checkStateError);
