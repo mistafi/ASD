@@ -57,7 +57,7 @@ var jsonData = {
 	};	
 	
 	//Get local storage
-	$.getStorageData = function(){
+	window.$getStorageData = function(){
 		if(localStorage.length === 0) {
 			alert("There is no data in Local Storage so example data was added.");
 			autoFillDefault();
@@ -151,7 +151,7 @@ $('#edit-page').on('pageinit', function(){
 	$('#reset').clearForm();
 	
 //validate function for the pebble form	
-		$.fn.validate = function (v){
+		window.$validate = function (v){
 		//define the elements we want to check
 		var checkGroup = $("#dropdownSelect");
 		var checkName = $("#inputName");
@@ -264,7 +264,7 @@ $('#edit-page').on('pageinit', function(){
 	}
 	
 	
-	//validate Pebble Form and store s=the data in local storage
+	//validate Pebble Form and store the data in local storage
 		var pebbleForm = $('#pebbleForm');
 		    $('#pebbleForm').validate({
 			invalidHandler: function(form, validator) {
