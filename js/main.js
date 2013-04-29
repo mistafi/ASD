@@ -48,7 +48,7 @@ var jsonData = {
 //	});
 	
 	//Auto Fill Local Storage as default
-	var autoFillDefault = function (){
+	$.autoFillDefault = function (){
 		//store JSON into Local Storage
 		for(var n in jsonData){
 			var id = Math.floor(Math.random()*100000001);
@@ -57,7 +57,7 @@ var jsonData = {
 	};	
 	
 	//Get local storage
-	var getStorageData = function(){
+	$.getStorageData = function(){
 		if(localStorage.length === 0) {
 			alert("There is no data in Local Storage so example data was added.");
 			autoFillDefault();
