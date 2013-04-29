@@ -3,9 +3,113 @@
 // Joshua Wisecup
 // Term 1304
 
+$( document ).on('pageinit', function(){
+
+var jsonData = {
+	"pebble1": {
+		"dropdownSelect": ["Type:", "Restaurant"],
+		"inputName": ["Name:", "Johnny's Pizza"],	
+		"inputAddress": ["Address:", "300 W Main St"],	
+		"inputAddress2": ["Address2:", ""],	
+		"inputCity": ["City:", "Frankfort"],	
+		"inputState": ["State:", "KY"],	
+		"inputZip": ["Zip Code:", "40601"],	
+		"inputRating": ["Rating:", "8"],	
+		"inputDate": ["Date of Visit:", "2013-01-30"],	
+		"inputArea": ["Notes:", ""],	
+		"inputCheck": ["Favorite:", "No"]	
+	},
+	"pebble2": {
+		"dropdownSelect": ["Type:", "Gas Station"],
+		"inputName": ["Name:", "Smith Bros."],	
+		"inputAddress": ["Address:", "22 S Main St"],	
+		"inputAddress2": ["Address2:", ""],	
+		"inputCity": ["City:", "Frankfort"],	
+		"inputState": ["State:", "KY"],	
+		"inputZip": ["Zip Code:", "40601"],	
+		"inputRating": ["Rating:", "6"],	
+		"inputDate": ["Date of Visit:", "2013-01-23"],	
+		"inputArea": ["Notes:", ""],	
+		"inputCheck": ["Favorite:", "No"]	
+	}
+}
 
 
+//	$.ajax({
+//		url: "js/json.js",
+//		type: "GET",
+//		dataType: "json",
+//		success: function (data, status) {
+//			console.log(status, data);
+//		},
+//		error: function (error, parseerror) {
+//			console.log(error, parseerror);
+//		}
+//	});
+	
+	//Auto Fill Local Storage as default
+	var autoFillDefault = function (){
+		//store JSON into Local Storage
+		for(var n in jsonData){
+			var id = Math.floor(Math.random()*100000001);
+			localStorage.setItem(id, JSON.stringify(jsonData[n]));
+		} 
+	};	
+	
+	//Get local storage
+	var getStorageData = function(){
+		if(localStorage.length === 0) {
+			alert("There is no data in Local Storage so example data was added.");
+			autoFillDefault();
+		}
+		
+		var makeDiv = $('#main').append( $("<div/>").addClass('items') );
+		var makeList = $('.items').append($('<ul/>').addClass('unstyled allData') );
+	
+		//write data from local storage to the browser
+		var createList = function(){
+			makeDiv.after(makeList);
+		}
+		
+		createList();
+		$(".items").show();	
 
+
+		for (var i=0, len=localStorage.length; i<len;i++){
+			var makeNewLi = $("<li/>").appendTo("allData");
+			var navLinksLi = $("<li/>").appendTo("makeSubList");
+			
+			makeList.append(makeNewLi);
+			
+			var key = localStorage.key(i);
+			var value = localStorage.getItem(key);
+			//Convert the string from local storage value back to an object using JSON.parse()
+			var obj = JSON.parse.data();
+			var makeSubList = $("<ul/>").addClass('unstyled well');
+			
+			makeNewLi.append(makeSubList);
+			
+			getCatImage(obj.dropdownSelect[1],makeSubList);
+			
+			for(var n in obj){
+				var makeSubli = $("<li/>");
+				
+				makeSubList.append(makeSubli);
+				
+				var optSubText = obj[n][0]+" "+obj[n][1];
+				
+				makeSubli.html() = optSubText;
+				
+				makeSubList.append(navLinksLi);
+			}
+			makeNavLinksLi(localStorage.key(i), navLinksLi); // create edit and delete links for each item in local storage
+		}
+		$("#main").append(makeDiv);
+//		selectDiv = document.getElementById("selectDiv");
+//		selectDiv.parentNode.removeChild("select");
+	};	
+
+});	
 
 $('#front-page').on('pageinit', function(){
 	
@@ -14,6 +118,7 @@ $('#front-page').on('pageinit', function(){
 	
 
 });	
+
 		
 $('#edit-page').on('pageinit', function(){
 
@@ -151,7 +256,7 @@ $('#edit-page').on('pageinit', function(){
 	}	
 	
 	function getCheckBoxValue(){
-		if($("#addfav").checked()){
+		if($("#addfav").checked){
 			favoriteValue = $("#addfav").data();
 		}else{
 			favoriteValue = "No"
@@ -175,79 +280,6 @@ $('#edit-page').on('pageinit', function(){
 
 $('#display-page').on('pageinit', function(event){
 
-	$.ajax({
-		url: "js/json.js",
-		type: "GET",
-		dataType: "json",
-		success: function (data, status) {
-			console.log(status, data);
-		},
-		error: function (error, parseerror) {
-			console.log(error, parseerror);
-		}
-	});
-	
-	//Auto Fill Local Storage as default
-	var autoFillDefault = function (){
-		//store JSON into Local Storage
-		for(var n in jsonData){
-			var id = Math.floor(Math.random()*100000001);
-			localStorage.setItem(id, JSON.stringify(jsonData[n]));
-		} 
-	};	
-	
-	//Get local storage
-	var getStorageData = function(){
-		if(localStorage.length === 0) {
-			alert("There is no data in Local Storage so example data was added.");
-			autoFillDefault();
-		}
-		
-		var makeDiv = $('#main').append( $("<div/>").addClass('items') );
-		var makeList = $('.items').append($('<ul/>').addClass('unstyled allData') );
-	
-		//write data from local storage to the browser
-		var createList = function(){
-			makeDiv.after(makeList);
-		}
-		
-		createList();
-		$(".items").show();	
-
-
-		for (var i=0, len=localStorage.length; i<len;i++){
-			var makeNewLi = $("<li/>").appendTo("allData");
-			var navLinksLi = $("<li/>").appendTo("makeSubList");
-			
-			makeList.append(makeNewLi);
-			
-			var key = localStorage.key(i);
-			var value = localStorage.getItem(key);
-			//Convert the string from local storage value back to an object using JSON.parse()
-			var obj = JSON.parse(data);
-			var makeSubList = $("<ul/>").addClass('unstyled well');
-			
-			makeNewLi.append(makeSubList);
-			
-			getCatImage(obj.dropdownSelect[1],makeSubList);
-			
-			for(var n in obj){
-				var makeSubli = $("<li/>");
-				
-				makeSubList.append(makeSubli);
-				
-				var optSubText = obj[n][0]+" "+obj[n][1];
-				
-				makeSubli.html() = optSubText;
-				
-				makeSubList.append(navLinksLi);
-			}
-			makeNavLinksLi(localStorage.key(i), navLinksLi); // create edit and delete links for each item in local storage
-		}
-		$("#main").append(makeDiv);
-//		selectDiv = document.getElementById("selectDiv");
-//		selectDiv.parentNode.removeChild("select");
-	};	
 	
 			//Get image for right category
 	function getCatImage(categoryName, makeSubList){
