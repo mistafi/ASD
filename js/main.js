@@ -4,9 +4,14 @@
 // Term 1304
 
 
+
+
+
 $('#front-page').on('pageinit', function(){
 	
 	console.log("hello world. This is the front page");	
+	
+	
 
 });	
 		
@@ -14,6 +19,7 @@ $('#edit-page').on('pageinit', function(){
 
 	$('select').trigger( 'create' );
 	
+//show and hide submit buttons
 	var showSubmit = function (){
 		$('#submit').parent().show();
 		$('#submit2').parent().hide();
@@ -22,7 +28,7 @@ $('#edit-page').on('pageinit', function(){
 	showSubmit();
 	
 
-	//function to clear the form
+//function to clear the form
 	$.fn.clearForm = function() {
 		return this.each(function() {
 		var type = this.type, tag = this.tagName.toLowerCase();
@@ -36,10 +42,135 @@ $('#edit-page').on('pageinit', function(){
 				this.selectedIndex = -1;
 		});
 	};
-	//reset the form by calling the clearform fn
+//reset the form by calling the clearform fn
 	$('#reset').clearForm();
 	
+//validate function for the pebble form	
+		$.fn.validate = function (v){
+		//define the elements we want to check
+		var checkGroup = $("#dropdownSelect");
+		var checkName = $("#inputName");
+		var checkAddress = $("#inputAddress");
+		var checkCity = $("#inputCity");
+		var checkState = $("#inputState");
+		
+		//reset error messages
+		$("#errorMessages").empty();
+		$(checkGroup).css("border" ,"1px solid #cccccc");
+		$(checkName).css("border" ,"1px solid #cccccc");
+		$(checkAddress).css("border" ,"1px solid #cccccc");
+		$(checkCity).css("border" ,"1px solid #cccccc");
+		$(checkState).css("border" ,"1px solid #cccccc");
 
+		//get error messages
+		var messagesArray = [];
+		
+		//group validation
+		if(checkGroup.data() === "--Choose a Type--"){
+			var checkGroupError = "Please choose a group."
+			$(checkGroup).css("border" ,"1px solid red");
+			messagesArray.push(checkGroupError);
+		}
+		//name validation
+		if(checkName.data() === ""){
+			var checkNameError = "Please enter a name."
+			$(checkName).css("border" ,"1px solid red");
+			messagesArray.push(checkNameError);
+		}
+		//address validation
+		if(checkAddress.data() === ""){
+			var checkAddressError = "Please enter an address."
+			$(checkAddress).css("border" ,"1px solid red");
+			messagesArray.push(checkAddressError);
+		}
+		//city validation
+		if(checkCity.data() === ""){
+			var checkCityError = "Please enter a city."
+			$(checkCity).css("border" ,"1px solid red");
+			messagesArray.push(checkCityError);
+		}
+		//state validation
+		if(checkState.data() === ""){
+			var checkStateError = "Please enter a state."
+			$(checkState).css("border" ,"1px solid red");
+			messagesArray.push(checkStateError);
+		}
+		
+		//if there are errors, display them
+		if(messagesArray.length >= 1){
+			for(var i=0, j=messagesArray.length; i < j; i++){
+				var txt = $("<li/>");
+				txt.html() = messagesArray[i];
+				$("#errorMessages").append(txt);
+			}
+			v.preventDefault();
+			return false;
+		}else{
+			//if no errors, save data. send key val from editData function
+			//remember this key value was passed through editSubmit as a property
+			storeTheData(this.key);
+		}
+
+		
+	}
+
+		
+		
+//store data from the Pebble Form
+		var storeTheData = function(data, key){
+		//if no key, then it's brand new and we need a new key
+		if(!key){
+		var id 				= Math.floor(Math.random()*100000001);
+		}else {
+			//set the id to the existing key so it will not overwrite the data
+			id = key;
+		}
+		//Gather up our form field values and store in an object
+		//Object properties contain an array with form label and input values
+		getCheckBoxValue();
+		var item			= {};
+		item.dropdownSelect	= ["Type:", $("#dropdownSelect").data()];
+		item.inputName		= ["Name:", $("#inputName").data()];
+		item.inputAddress	= ["Address:", $("#inputAddress").data()];
+		item.inputAddress2	= ["Address2:", $("#inputAddress2").data()];
+		item.inputCity		= ["City:", $("#inputCity").data()];
+		item.inputState		= ["State:", $("#inputState").data()];
+		item.inputZip		= ["Zip Code:", $("#inputZip").data()];
+		item.inputRating	= ["Rating:", $("#inputRating").data()];
+		item.inputDate		= ["Date of Visit:", $("#inputDate").data()];
+		//item.inputHidden	= ["Hidden:", ge("inputHidden").data()];
+		item.inputArea		= ["Notes:", $("#inputArea").data()];
+		item.inputCheck		= ["Favorite:", favoriteValue];
+		
+		//Save data into local storage. Use stringify to convert object into a string		
+//		localStorage.setItem('id', JSON.stringify(item));
+		
+		//localStorage.setItem("test","hello");
+		//alert(localStorage.length);
+		alert("Pebble Saved! You have " + localStorage.length + " pebbles saved.");
+	}	
+	
+	function getCheckBoxValue(){
+		if($("#addfav").checked()){
+			favoriteValue = $("#addfav").data();
+		}else{
+			favoriteValue = "No"
+		}
+	}
+	
+	
+	//validate Pebble Form and store s=the data in local storage
+		var pebbleForm = $('#pebbleForm');
+		    $('#pebbleForm').validate({
+			invalidHandler: function(form, validator) {
+			},
+			submitHandler: function() {
+		var data = pebbleForm.serializeArray();
+			parsePebbleForm(data);
+			storeTheData(data);
+			}
+		});
+	
 });
 
 $('#display-page').on('pageinit', function(event){
@@ -195,122 +326,11 @@ $('#display-page').on('pageinit', function(event){
 		}
 	}
 	
-	
-	
-		var storeTheData = function(data, key){
-		//if no key, then it's brand new and we need a new key
-		if(!key){
-		var id 				= Math.floor(Math.random()*100000001);
-		}else {
-			//set the id to the existing key so it will not overwrite the data
-			id = key;
-		}
-		//Gather up our form field values and store in an object
-		//Object properties contain an array with form label and input values
-		getCheckBoxValue();
-		var item			= {};
-		item.dropdownSelect	= ["Type:", $("#dropdownSelect").data()];
-		item.inputName		= ["Name:", $("#inputName").data()];
-		item.inputAddress	= ["Address:", $("#inputAddress").data()];
-		item.inputAddress2	= ["Address2:", $("#inputAddress2").data()];
-		item.inputCity		= ["City:", $("#inputCity").data()];
-		item.inputState		= ["State:", $("#inputState").data()];
-		item.inputZip		= ["Zip Code:", $("#inputZip").data()];
-		item.inputRating	= ["Rating:", $("#inputRating").data()];
-		item.inputDate		= ["Date of Visit:", $("#inputDate").data()];
-		//item.inputHidden	= ["Hidden:", ge("inputHidden").data()];
-		item.inputArea		= ["Notes:", $("#inputArea").data()];
-		item.inputCheck		= ["Favorite:", favoriteValue];
-		
-		//Save data into local storage. Use stringify to convert object into a string		
-		localStorage.setItem('id', JSON.stringify(item));
-		
-		//localStorage.setItem("test","hello");
-		//alert(localStorage.length);
-		alert("Pebble Saved! You have " + localStorage.length + " pebbles saved.");
-	}	
-	
-	function getCheckBoxValue(){
-		if($("#addfav").checked){
-			favoriteValue = $("#addfav").data();
-		}else{
-			favoriteValue = "No"
-		}
-	}
-	
-	
+
 			
 	//Remove inital listener from save button
 	$(submit).off('click');
 	
-	
-		$.fn.validate = function (v){
-		//define the elements we want to check
-		var checkGroup = $("#dropdownSelect");
-		var checkName = $("#inputName");
-		var checkAddress = $("#inputAddress");
-		var checkCity = $("#inputCity");
-		var checkState = $("#inputState");
-		
-		//reset error messages
-		$("#errorMessages").empty();
-		$(checkGroup).css("border" ,"1px solid #cccccc");
-		$(checkName).css("border" ,"1px solid #cccccc");
-		$(checkAddress).css("border" ,"1px solid #cccccc");
-		$(checkCity).css("border" ,"1px solid #cccccc");
-		$(checkState).css("border" ,"1px solid #cccccc");
-
-		//get error messages
-		var messagesArray = [];
-		
-		//group validation
-		if(checkGroup.data() === "--Choose a Type--"){
-			var checkGroupError = "Please choose a group."
-			$(checkGroup).css("border" ,"1px solid red");
-			messagesArray.push(checkGroupError);
-		}
-		//name validation
-		if(checkName.data() === ""){
-			var checkNameError = "Please enter a name."
-			$(checkName).css("border" ,"1px solid red");
-			messagesArray.push(checkNameError);
-		}
-		//address validation
-		if(checkAddress.data() === ""){
-			var checkAddressError = "Please enter an address."
-			$(checkAddress).css("border" ,"1px solid red");
-			messagesArray.push(checkAddressError);
-		}
-		//city validation
-		if(checkCity.data() === ""){
-			var checkCityError = "Please enter a city."
-			$(checkCity).css("border" ,"1px solid red");
-			messagesArray.push(checkCityError);
-		}
-		//state validation
-		if(checkState.data() === ""){
-			var checkStateError = "Please enter a state."
-			$(checkState).css("border" ,"1px solid red");
-			messagesArray.push(checkStateError);
-		}
-		
-		//if there are errors, display them
-		if(messagesArray.length >= 1){
-			for(var i=0, j=messagesArray.length; i < j; i++){
-				var txt = $("<li/>");
-				txt.html() = messagesArray[i];
-				$("#errorMessages").append(txt);
-			}
-			v.preventDefault();
-			return false;
-		}else{
-			//if no errors, save data. send key val from editData function
-			//remember this key value was passed through editSubmit as a property
-			storeTheData(this.key);
-		}
-
-		
-	}
 	
 		
 	//change submit button to edit button
@@ -375,27 +395,13 @@ $('#display-page').on('pageinit', function(event){
 	var pebbleGroups = ["--Choose a Type--", "Restaurant", "Gas Station", "Retail Store"],
 		favoriteValue = "No",
 		errMessage = $("#errorMessages");
-	;
+	
 	
 //		makeSelectField();
 
 
 
-		var pebbleForm = $('#pebbleForm');
-		    $('#pebbleForm').validate({
-			invalidHandler: function(form, validator) {
-			},
-			submitHandler: function() {
-		var data = pebbleForm.serializeArray();
-			parsePebbleForm(data);
-			storeTheData(data);
-		}
-		
 
-
-
-		
-	});
 	
 	getStorageData();
 
