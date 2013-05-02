@@ -8,16 +8,16 @@ $('#front-page').on('pageinit', function(){
 	
 	console.log("hello world. This is the front page");	
 
-		//Auto Fill Local Storage as default
-	var autoFillDefault = function (){
-		//store JSON into Local Storage
-		for(var n in jsonData){
-			var id = Math.floor(Math.random()*100000001);
-			localStorage.setItem(id, JSON.stringify(jsonData[n]));
-		} 
-	};	
+//		//Auto Fill Local Storage as default
+//	var autoFillDefault = function (){
+//		//store JSON into Local Storage
+//		for(var n in jsonData){
+//			var id = Math.floor(Math.random()*100000001);
+//			localStorage.setItem(id, JSON.stringify(jsonData[n]));
+//		} 
+//	};	
 
-autoFillDefault();
+//autoFillDefault();
 	
 // Get localStorage
         $("#mainSearch").empty();
@@ -37,7 +37,7 @@ autoFillDefault();
 //			$("addfav").attr("checked", "checked");
 //		}
 		
-		
+//    $("#storage").on('click', function(){
         for (var i= 0, j=localStorage.length; i<j ; i++){
             var key = localStorage.key(i);
             var item = JSON.parse(localStorage.getItem(key));
@@ -54,8 +54,8 @@ autoFillDefault();
             makeLink.html(makeSubLi);
             makeSubList.append(makeLink).appendTo("#mainSearch");
         }; // end for loop
-  //      $("ul").listview('refresh');
-
+	    $("#mainSearch").listview('refresh');
+//	});	
 
 });	
 
@@ -81,7 +81,7 @@ $('#display-page').on('pageinit', function(event){
 autoFillDefault();
 	
 // Get localStorage
-    $("#storage").on('click', function(){
+    //$("#storage").on('click', function(){
         $("#itemList").empty();
         for (var i= 0, j=localStorage.length; i<j ; i++){
             var key = localStorage.key(i);
@@ -100,7 +100,7 @@ autoFillDefault();
             makeSubList.append(makeLink).appendTo("#itemList");
         }; // end for loop
         $("ul").listview('refresh');
-    });  // end storage.on
+   // });  // end storage.on
 
 
 
