@@ -255,73 +255,73 @@ $('#newItem').on('pageinit', function(){
 	};	
 	
 	
-	function validate(v){
-		//define the elements we want to check
-		var checkGroup = $("#dropdownSelect");
-		var checkName = $("#inputName");
-		var checkAddress = $("#inputAddress");
-		var checkCity = $("#inputCity");
-		var checkState = $("#inputState");
-		
-		//reset error messages
-		errMessage.html('');
-		checkGroup.css('border', '1px solid #cccccc');
-		checkName.css('border', '1px solid #cccccc');
-		checkAddress.css('border', '1px solid #cccccc');
-		checkCity.css('border', '1px solid #cccccc');
-		checkState.css('border', '1px solid #cccccc');
-
-		//get error messages
-		var messagesArray = [];
-		
-		//group validation
-		if(checkGroup.val() === "--Choose a Type--"){
-			var checkGroupError = "Please choose a group."
-			checkGroup.css('border', '1px solid red');
-			messagesArray.push(checkGroupError);
-		}
-		//name validation
-		if(checkName.val() === ""){
-			var checkNameError = "Please enter a name."
-			checkName.css('border', '1px solid red');
-			messagesArray.push(checkNameError);
-		}
-		//address validation
-		if(checkAddress.val() === ""){
-			var checkAddressError = "Please enter an address."
-			checkAddress.css('border', '1px solid red');
-			messagesArray.push(checkAddressError);
-		}
-		//city validation
-		if(checkCity.val() === ""){
-			var checkCityError = "Please enter a city."
-			checkCity.css('border', '1px solid red');
-			messagesArray.push(checkCityError);
-		}
-		//state validation
-		if(checkState.val() === ""){
-			var checkStateError = "Please enter a state."
-			checkState.css('border', '1px solid red');
-			messagesArray.push(checkStateError);
-		}
-		
-		//if there are errors, display them
-		if(messagesArray.length >= 1){
-			for(var i=0, j=messagesArray.length; i < j; i++){
-				var txt = $("li");
-				txt.html(messagesArray[i]);
-				errMessage.append(txt);
-			}
-			v.preventDefault();
-			return false;
-		}else{
-			//if no errors, save data. send key val from editData function
-			//remember this key value was passed through editSubmit as a property
-			storeTheData(this.key);
-		}
-
-		
-	}
+//	function validate(v){
+//		//define the elements we want to check
+//		var checkGroup = $("#dropdownSelect");
+//		var checkName = $("#inputName");
+//		var checkAddress = $("#inputAddress");
+//		var checkCity = $("#inputCity");
+//		var checkState = $("#inputState");
+//		
+//		//reset error messages
+//		errMessage.html('');
+//		checkGroup.css('border', '1px solid #cccccc');
+//		checkName.css('border', '1px solid #cccccc');
+//		checkAddress.css('border', '1px solid #cccccc');
+//		checkCity.css('border', '1px solid #cccccc');
+//		checkState.css('border', '1px solid #cccccc');
+//
+//		//get error messages
+//		var messagesArray = [];
+//		
+//		//group validation
+//		if(checkGroup.val() === "--Choose a Type--"){
+//			var checkGroupError = "Please choose a group."
+//			checkGroup.css('border', '1px solid red');
+//			messagesArray.push(checkGroupError);
+//		}
+//		//name validation
+//		if(checkName.val() === ""){
+//			var checkNameError = "Please enter a name."
+//			checkName.css('border', '1px solid red');
+//			messagesArray.push(checkNameError);
+//		}
+//		//address validation
+//		if(checkAddress.val() === ""){
+//			var checkAddressError = "Please enter an address."
+//			checkAddress.css('border', '1px solid red');
+//			messagesArray.push(checkAddressError);
+//		}
+//		//city validation
+//		if(checkCity.val() === ""){
+//			var checkCityError = "Please enter a city."
+//			checkCity.css('border', '1px solid red');
+//			messagesArray.push(checkCityError);
+//		}
+//		//state validation
+//		if(checkState.val() === ""){
+//			var checkStateError = "Please enter a state."
+//			checkState.css('border', '1px solid red');
+//			messagesArray.push(checkStateError);
+//		}
+//		
+//		//if there are errors, display them
+//		if(messagesArray.length >= 1){
+//			for(var i=0, j=messagesArray.length; i < j; i++){
+//				var txt = $("li");
+//				txt.html(messagesArray[i]);
+//				errMessage.append(txt);
+//			}
+//			v.preventDefault();
+//			return false;
+//		}else{
+//			//if no errors, save data. send key val from editData function
+//			//remember this key value was passed through editSubmit as a property
+//			storeTheData(this.key);
+//		}
+//
+//		
+//	}
 	
 	//trying to add query function
 	function searchQuery() {
