@@ -46,12 +46,13 @@
                       <img src="img/pebble_sm.jpg" alt="">
                         <div class="action-caption">
                           <h1>Retrace Your Steps</h1>
-                          <a class="itemButton" href="#newItem" data-role="button" data-theme="a" data-inline="true">Add a Pebble</a>
+                          <a class="itemButton" href="#newItem" data-role="button" data-rel="dialog" data-transition="pop" data-theme="a" data-inline="true">Add a Pebble</a>
                         </div>
                     </div>    		
                 </div><!-- /ui-grid -->
                 
                 <p class="lead">Save your faves. Get back again.</p>
+                
                 
                 <ul id="mainSearch" data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search locations..." data-inset="true" data-theme="a">
 <!--                <li><a href="#">Apple</a></li>
@@ -61,6 +62,9 @@
                     <li><a href="#">Grape</a></li>
                     <li><a href="#">Orange</a></li>-->
                 </ul>
+                
+                <p><a href="#" data-role="button" id="getStorage">Get local storage.</a></p>
+
                 
                 <ul data-role="listview" data-inset="true" data-theme="a">
                     <li>
@@ -153,25 +157,24 @@
     	<section data-role="page" id="newItem" data-url="newItem" data-theme="a" class="newItem">
         
             <header data-role="header" data-position="fixed">
-            	<h1>Pebbly</h1>
+            	<h1>Add Pebble</h1>
             </header><!-- /header -->
 
             <div data-role="content" id="mainFormContainer" class="addItem">
                
-               <div data-role="navbar">
+<!--               <div data-role="navbar">
                     <ul class="nav nav-pills">
                       <li><a id="clearData" href="#"><i class="icon-remove"></i> Clear Stored Data</a></li>
                       <li><a id="displayDataLink" href="#editItemPage"><i class="icon-list"></i> Display Data</a></li>
                     </ul>  
-				</div>                  
+				</div>    -->              
                 
                 <ul id="errorMessages"></ul>
-                 <h2>Add a Pebble</h2>
 
                  <form action="#" method="post" class="form-horizontal" id="pebbleForm" data-ajax=”false”>
                   <div class="control-group" data-role="fieldcontain">
                     <label id="labelSelect" class="control-label" for="dropdownSelect">Type*</label>
-                    	<select id="dropdownSelect" data-native-menu="false" data-theme="a">
+                    	<select id="dropdownSelect" data-native-menu="false" data-theme="a" class='required'>
                         	<option value="--Choose a Type--">--Choose a Type--</option>
                         	<option value="Restaurant">Restaurant</option>
                         	<option value="Gas Station">Gas Station</option>
@@ -242,7 +245,7 @@
                 </form>
             </div><!-- /content -->
 
-            <footer data-role="footer" data-position="fixed">
+<!--            <footer data-role="footer" data-position="fixed">
                 <nav data-role="navbar">
                     <ul>
                         <li><a href="#home" data-icon="star">Home</a></li>
@@ -251,7 +254,7 @@
                         <li><a href="#editItemPage" data-icon="grid">View</a></li>
                     </ul>
                 </nav>
-            </footer><!-- /footer -->
+            </footer>--><!-- /footer -->
             
         </section><!-- /editpage -->
 
@@ -264,7 +267,13 @@
 
             <div data-role="content" id="editFormContainer">
                 
+				<ul id="mainEditList" data-inset="true" data-theme="a" class="unstyled well">
+
+				</ul>
                 
+                <p><a href="#" data-role="button" id="getNewStorage">Get local storage.</a></p>
+                <p><a href="#" data-role="button" id="clearStorage">Clear local storage.</a></p>
+
                  
             </div><!-- /content -->
 
