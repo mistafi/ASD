@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<pebbles>
+	<pebble>
+		<type>Restaurant</type>
+		<inputName>Johnny's Pizza</inputName>
+		<inputAddress>300 W Main St</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Frankfort</inputCity>
+		<inputState>KY</inputState>
+		<inputZip>40601</inputZip>
+		<inputRating>8</inputRating>
+		<inputDate>2013-01-30</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>No</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Gas Station</type>
+		<inputName>Smith Bros.</inputName>
+		<inputAddress>22 S Main St</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Frankfort</inputCity>
+		<inputState>KY</inputState>
+		<inputZip>40601</inputZip>
+		<inputRating>6</inputRating>
+		<inputDate>2013-01-23</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>No</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Retail Store</type>
+		<inputName>Michael's</inputName>
+		<inputAddress>55 Allen Way</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Frankfort</inputCity>
+		<inputState>KY</inputState>
+		<inputZip>40601</inputZip>
+		<inputRating>7</inputRating>
+		<inputDate>2013-01-25</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>No</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Retail Store</type>
+		<inputName>Joey's Pet Mart</inputName>
+		<inputAddress>6600 Martin Ave</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Lexington</inputCity>
+		<inputState>KY</inputState>
+		<inputZip>40511</inputZip>
+		<inputRating>5</inputRating>
+		<inputDate>2013-01-28</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>No</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Gas Station</type>
+		<inputName>Family Guys</inputName>
+		<inputAddress>Highway 44</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Lexington</inputCity>
+		<inputState>KY</inputState>
+		<inputZip>40511</inputZip>
+		<inputRating>6</inputRating>
+		<inputDate>2013-02-02</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>Yes</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Restaurant</type>
+		<inputName>Subby's</inputName>
+		<inputAddress>600 State Rt 47</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Sidney</inputCity>
+		<inputState>OH</inputState>
+		<inputZip>45365</inputZip>
+		<inputRating>8</inputRating>
+		<inputDate>2013-02-04</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>Yes</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Retail Store</type>
+		<inputName>Mac's Clothing for Kids</inputName>
+		<inputAddress>455 Fifth St</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Frankfort</inputCity>
+		<inputState>KY</inputState>
+		<inputZip>40601</inputZip>
+		<inputRating>7</inputRating>
+		<inputDate>2013-01-05</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>Yes</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Restaurant</type>
+		<inputName>Flo's Diner</inputName>
+		<inputAddress>250 Main St</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Frankfort</inputCity>
+		<inputState>KY</inputState>
+		<inputZip>40601</inputZip>
+		<inputRating>8</inputRating>
+		<inputDate>2013-01-10</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>Yes</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Restaurant</type>
+		<inputName>Rojo's</inputName>
+		<inputAddress>233 3rd St</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Lexington</inputCity>
+		<inputState>KY</inputState>
+		<inputZip>40505</inputZip>
+		<inputRating>8</inputRating>
+		<inputDate>2013-01-10</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>Yes</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Gas Station</type>
+		<inputName>Shelly's Shell</inputName>
+		<inputAddress>22 Fifth Ave</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Dayton</inputCity>
+		<inputState>OH</inputState>
+		<inputZip>43001</inputZip>
+		<inputRating>7</inputRating>
+		<inputDate>2013-01-15</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>No</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Gas Station</type>
+		<inputName>Fill 'er Up</inputName>
+		<inputAddress>865 James St</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Xenia</inputCity>
+		<inputState>OH</inputState>
+		<inputZip>49905</inputZip>
+		<inputRating>7</inputRating>
+		<inputDate>2013-01-02</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>No</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Retail Store</type>
+		<inputName>TJ</inputName>
+		<inputAddress>677 Business Blvd</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Westchester</inputCity>
+		<inputState>OH</inputState>
+		<inputZip>45599</inputZip>
+		<inputRating>7</inputRating>
+		<inputDate>2013-02-05</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>No</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Retail Store</type>
+		<inputName>Lucky's Garage Warehouse</inputName>
+		<inputAddress>465 Circle Dr</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Sidney</inputCity>
+		<inputState>OH</inputState>
+		<inputZip>45365</inputZip>
+		<inputRating>7</inputRating>
+		<inputDate>2013-02-02</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>Yes</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Restaurant</type>
+		<inputName>Mikey's Pizza</inputName>
+		<inputAddress>900 Versailles Ave</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Frankfort</inputCity>
+		<inputState>KY</inputState>
+		<inputZip>40601</inputZip>
+		<inputRating>7</inputRating>
+		<inputDate>2013-02-01</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>No</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Gas Station"</type>
+		<inputName>Johnson's BP</inputName>
+		<inputAddress>800 Alameda Freeway</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Lexington</inputCity>
+		<inputState>KY</inputState>
+		<inputZip>40505</inputZip>
+		<inputRating>5</inputRating>
+		<inputDate>2013-01-18</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>Yes</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Restaurant</type>
+		<inputName>Bella's</inputName>
+		<inputAddress>700 Folkerth Ave</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Frankfort</inputCity>
+		<inputState>KY</inputState>
+		<inputZip>40601</inputZip>
+		<inputRating>9</inputRating>
+		<inputDate>2013-01-21</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>No</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Retail Store</type>
+		<inputName>Trade 'em Ins</inputName>
+		<inputAddress>700 Trustway Blvd</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Lexington</inputCity>
+		<inputState>KY</inputState>
+		<inputZip>40505</inputZip>
+		<inputRating>7</inputRating>
+		<inputDate>2013-01-23</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>Yes</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Gas Station</type>
+		<inputName>Showman's BP</inputName>
+		<inputAddress>877 Highway 66</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Westchester</inputCity>
+		<inputState>OH</inputState>
+		<inputZip>40909</inputZip>
+		<inputRating>7</inputRating>
+		<inputDate>2013-01-10</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>Yes</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Retail Store</type>
+		<inputName>Dress Place</inputName>
+		<inputAddress>455 Major Way</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Sidney</inputCity>
+		<inputState>OH</inputState>
+		<inputZip>45365</inputZip>
+		<inputRating>6</inputRating>
+		<inputDate>2013-02-04</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>Yes</inputCheck>
+	</pebble>
+	<pebble>
+		<type>Restaurant</type>
+		<inputName>Sweetheart's Grille</inputName>
+		<inputAddress>400 Musical Ln</inputAddress>
+		<inputAddress2></inputAddress2>
+		<inputCity>Lexington</inputCity>
+		<inputState>KY</inputState>
+		<inputZip>40505</inputZip>
+		<inputRating>8</inputRating>
+		<inputDate>2013-01-17</inputDate>
+		<inputArea></inputArea>
+		<inputCheck>No</inputCheck>
+	</pebble>
+</pebbles>
