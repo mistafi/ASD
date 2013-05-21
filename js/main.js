@@ -200,7 +200,7 @@ getdata();
 		
 		function editDataItem(keyArg){
 			//Grab data from local storage
-			var value = localStorage.getItem(this.key);
+			var value = localStorage.getItem(keyArg);
 			var item = JSON.parse(value);
 			
 			console.log(item.inputName[0]);
