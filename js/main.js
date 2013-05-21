@@ -107,7 +107,7 @@ var getdata = function() {
                 console.log("This is my key: "+this.id);
 				//Edit Item here this.id is key
 				//this.attr('id');
-				editDataItem();
+				editDataItem(this.id);
 				//get item populate form
 				//change from save to edit item in form				
             });
