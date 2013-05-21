@@ -198,7 +198,7 @@ getdata();
 		}
 		
 		
-		function editDataItem(){
+		function editDataItem(this.id){
 			//Grab data from local storage
 			var value = localStorage.getItem(this.key);
 			var item = JSON.parse(value);
