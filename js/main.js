@@ -35,8 +35,8 @@ var loadInfo = function(dataJson) {
 					xmlPebbles = xmlData.find('pebbleItems'),
 					xmlObj = {}
 
-				//Build Object per each childNode within each recipe.
-				xmlRecipes.each(function(i) {
+				//Build Object per each childNode within each pebble.
+				xmlObjects.each(function(i) {
 					xmlObj = {};
 					xmlObj.type 			= [$(this).find('type').text()];
 					xmlObj.inputName		= [$(this).find('inputName').text()];
@@ -51,7 +51,7 @@ var loadInfo = function(dataJson) {
 					xmlObj.inputCheck 		= [$(this).find('inputCheck').text()];
 
 
-					//Write recipe to local storage
+					//Write pebble to local storage
 					localStorage.setItem(i, JSON.stringify(xmlObj));
 				});
 
