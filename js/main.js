@@ -3,7 +3,7 @@
 // Joshua Wisecup
 // Term 1304
 
-$('#home').on('pageinit', function() {
+$('#home').on('pagebeforeshow', function() {
 
 //		getAllItems();
 var loadInfo = function(dataJson) {
