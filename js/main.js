@@ -3,6 +3,38 @@
 // Joshua Wisecup
 // Term 1304
 
+
+var editDataItem = function(keyArg){
+	//Grab data from local storage
+	var value = localStorage.getItem(keyArg);
+	var item = JSON.parse(value);
+	
+	console.log(item.inputName[0]);
+
+	
+	//Show the form
+//	toggleTheControls("off");
+	
+	//populate the form fields with current localStorage values
+	$("#type").val(item.type[0]);
+	$("#inputName").val(item.inputName[0]).trigger("create");
+	$("#inputAddress").val(item.inputAddress[0]).trigger("create");
+	$("#inputAddress2").val(item.inputAddress2[0]).trigger("create");
+	$("#inputCity").val(item.inputCity[0]).trigger("create");
+	$("#inputState").val(item.inputState[0]).trigger("create");
+	$("#inputZip").val(item.inputZip[0]).trigger("create");
+	$("#inputRating").val(item.inputRating[0]);
+	$("#inputDate").val(item.inputDate[0]).trigger("create");
+	$("#inputArea").val(item.inputArea[0]).trigger("create");
+	if(item.inputCheck[0] == "Yes"){
+		$("#addfav").attr("checked", "checked");
+	}
+	
+}		
+
+
+
+
 $('#home').on('pagebeforeshow', function() {
 
 //		getAllItems();
@@ -121,6 +153,11 @@ var getdata = function() {
 
 getdata();
 		
+});
+
+$('#newItem').on('pagebeforeshow', function() {
+		
+		
 //store the data into local storage
 	var storeTheData = function(data,key) {
 		//if no key, then it's brand new and we need a new key
@@ -198,54 +235,27 @@ getdata();
 		}
 		
 		
-		function editDataItem(keyArg){
-			//Grab data from local storage
-			var value = localStorage.getItem(keyArg);
-			var item = JSON.parse(value);
-			
-			console.log(item.inputName[0]);
-
-			
-			//Show the form
-		//	toggleTheControls("off");
-			
-			//populate the form fields with current localStorage values
-			$("#type").val(item.type[0]).selectmenu("refresh");
-			$("#inputName").val(item.inputName[0]).trigger("create");
-			$("#inputAddress").val(item.inputAddress[0]).trigger("create");
-			$("#inputAddress2").val(item.inputAddress2[0]).trigger("create");
-			$("#inputCity").val(item.inputCity[0]).trigger("create");
-			$("#inputState").val(item.inputState[0]).trigger("create");
-			$("#inputZip").val(item.inputZip[0]).trigger("create");
-			$("#inputRating").val(item.inputRating[0]).slider("refresh");
-			$("#inputDate").val(item.inputDate[0]).trigger("create");
-			$("#inputArea").val(item.inputArea[0]).trigger("create");
-			if(item.inputCheck[0] == "Yes"){
-				$("#addfav").attr("checked", "checked");
-			}
-			
-			
-			//Remove inital listener from save button
-			submit.off("click", storeTheData);
-			
-			//change submit button to edit button
-			$("#submit").text() = "Edit Pebble";
-			var editSubmit = $("#submit");
-			
-			//save key value for reuse
-			editSubmit.on("click", validate);
-			editSubmit.key = this.key;
-			
-			itemsDiv = $("#items");
-			itemsDiv.parent().children(itemsDiv);
-		}		
-		
 
 		//show submit button
 		var showSubmit = function (){
 			$('#submit').parent().show();
 			$('#submit2').parent().hide();
 		}
+		
+		//Remove inital listener from save button
+		$('#submit').off("click", storeTheData);
+		
+		//change submit button to edit button
+		$("#submit").text("Edit Pebble");
+		var editSubmit = $("#submit");
+		
+		//save key value for reuse
+		editSubmit.on("click", validate);
+		editSubmit.key = this.key;
+		
+		itemsDiv = $("#items");
+		itemsDiv.parent().children(itemsDiv);
+	
 	
 		showSubmit();
 		
