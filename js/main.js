@@ -4,40 +4,11 @@
 // Term 1304
 
 
-var editDataItem = function(keyArg){
-	//Grab data from local storage
-	var value = localStorage.getItem(keyArg);
-	var item = JSON.parse(value);
-	
-	console.log(item.inputName[0]);
+var pebbleItemKey = '';
+//categories not ready yet
+//var pebbleCategory = '';
 
-	
-	//Show the form
-//	toggleTheControls("off");
-	
-	//populate the form fields with current localStorage values
-	$("#type").val(item.type[0]);
-	$("#inputName").val(item.inputName[0]).trigger("create");
-	$("#inputAddress").val(item.inputAddress[0]).trigger("create");
-	$("#inputAddress2").val(item.inputAddress2[0]).trigger("create");
-	$("#inputCity").val(item.inputCity[0]).trigger("create");
-	$("#inputState").val(item.inputState[0]).trigger("create");
-	$("#inputZip").val(item.inputZip[0]).trigger("create");
-	$("#inputRating").val(item.inputRating[0]);
-	$("#inputDate").val(item.inputDate[0]).trigger("create");
-	$("#inputArea").val(item.inputArea[0]).trigger("create");
-	if(item.inputCheck[0] == "Yes"){
-		$("#addfav").attr("checked", "checked");
-	}
-	
-}		
-
-
-
-
-$('#home').on('pagebeforeshow', function() {
-
-//		getAllItems();
+//load data in ajax and xml
 var loadInfo = function(dataJson) {
 	if(dataJson === 'json') {
 		console.log('Loading JSON file');
@@ -52,6 +23,7 @@ var loadInfo = function(dataJson) {
 			    for ( var n in jsonObj) {
 			        localStorage.setItem(n, JSON.stringify(jsonObj[n]));
 			    };
+				//get the list of data
 				getData();
 			}
 		})		
@@ -82,33 +54,142 @@ var loadInfo = function(dataJson) {
 					xmlObj.inputArea 		= [$(this).find('inputArea').text()];
 					xmlObj.inputCheck 		= [$(this).find('inputCheck').text()];
 
-
 					//Write pebble to local storage
 					localStorage.setItem(i, JSON.stringify(xmlObj));
 				});
-
+				//get the list of data
 				getData();	
-				
 			}
 		})			
 	}
 
 };
-    // empty the main list
-    $("#mainSearch").empty();
-	
-    // add custom html
-    $('<li data-role="list-divider">Friday, October 8, 2010 <span class="ui-li-count">3</span></li>' +
-        '<li><a href="index.html"><h3>Stephen Weber</h3>' +
-        '<p><strong>You have been invited to a meeting at Filament Group in Boston, MA</strong></p>' +
-        '<p>Hey Stephen, we have got a meeting with the jQuery team.</p>' +
-        '<p class="ui-li-aside"><strong>6:24</strong>PM</p></a></li>').appendTo("#mainSearch");
 
-    // refresh the listview
-    $("#mainSearch").listview('refresh');
+//store the data into local storage
+	var storeTheData = function(data,key) {
+		//if no key, then it's brand new and we need a new key
+		var key;
+		//var id = Math.floor(Math.random() * 100000001);
+           if (pebbleItemKey) {
+			   key = pebbleItemKey;
+           } else {
+			//set the id to the existing key so it will not overwrite the data
+               id = Math.floor(Math.random() * 100000001);
+           }
+		//Gather up our form field values and store in an object
+		//Object properties contain an array with form label and input values
+//			getCheckBoxValue();           
+			var item = {};
+
+           //Gather form field values and store in an object
+           //Object properties contain an array with the form label and input value
+			item.type			= [$("#type").val()];
+			item.inputName		= [$("#inputName").val()];
+			item.inputAddress	= [$("#inputAddress").val()];
+			item.inputAddress2	= [$("#inputAddress2").val()];
+			item.inputCity		= [$("#inputCity").val()];
+			item.inputState		= [$("#inputState").val()];
+			item.inputZip		= [$("#inputZip").val()];
+			item.inputRating	= [$("#inputRating").val()];
+			item.inputDate		= [$("#inputDate").val()];
+			//item.inputHidden	= ["Hidden:", $("#inputHidden").val()];
+			item.inputArea		= [$("inputArea").val()];
+			item.inputCheck		= ["Favorite:", '.val()'];
+		
+		//Save data into local storage. Use stringify to convert object into a string		
+		localStorage.setItem(id, JSON.stringify(item));
+
+		alert("Your location is saved! Add another!");
+		$.mobile.changePage("#editItemPage",{
+			allowSamePageTransition: true,
+			transition: "slide"
+		});
+		
+	//Reset pebbleItemKey
+	pebbleItemKey = '';
+
+};
 
 
-var getdata = function() {
+		var errMessage = $("#errorMessages");
+
+// validate the form	   
+		var validate = function(event){
+			console.log("Validating the data form.");
+			
+			var requiredEl = $('.required');
+			requiredEl.removeClass('error');
+
+
+		//define the elements we want to check
+			var checkGroup = $("#type");
+			var checkName = $("#inputName");
+			var checkAddress = $("#inputAddress");
+			var checkCity = $("#inputCity");
+			var checkState = $("#inputState");
+		
+		//reset error messages
+			errMessage.html('');
+			checkGroup.css('border', '1px solid #cccccc');
+			checkName.css('border', '1px solid #cccccc');
+			checkAddress.css('border', '1px solid #cccccc');
+			checkCity.css('border', '1px solid #cccccc');
+			checkState.css('border', '1px solid #cccccc');
+
+		//get error messages
+			var messagesArray = [];
+		
+		//group validation
+			if(checkGroup.val() === "--Choose a Type--"){
+				var checkGroupError = "Please choose a group."
+				$(this).parent().addClass('error');
+				checkGroup.css('border', '1px solid red');
+				messagesArray.push(checkGroupError);
+			}
+		//name validation
+			if(checkName.val() === ""){
+				var checkNameError = "Please enter a name."
+				checkName.css('border', '1px solid red');
+				messagesArray.push(checkNameError);
+			}
+		//address validation
+			if(checkAddress.val() === ""){
+				var checkAddressError = "Please enter an address."
+				checkAddress.css('border', '1px solid red');
+				messagesArray.push(checkAddressError);
+			}
+		//city validation
+			if(checkCity.val() === ""){
+				var checkCityError = "Please enter a city."
+				checkCity.css('border', '1px solid red');
+				messagesArray.push(checkCityError);
+			}
+		//state validation
+			if(checkState.val() === ""){
+				var checkStateError = "Please enter a state."
+				checkState.css('border', '1px solid red');
+				messagesArray.push(checkStateError);
+			}
+		
+		//if there are errors, display them
+			if(messagesArray.length >= 1){
+				for(var i=0, j=messagesArray.length; i < j; i++){
+					var txt = $("li");
+					txt.html(messagesArray[i]);
+					errMessage.append(txt);
+			}
+			event.preventDefault();
+			return false;
+		}else{
+			//if no errors, save data. send key val from editData function
+			//remember this key value was passed through editSubmit as a property
+			storeTheData(this.key);
+			}
+		
+		};
+		
+		
+var getData = function() {
     // Get localStorage and add to button click
     $("#getStorage").on('click', function(){
         $("#mainSearch").empty();
@@ -149,51 +230,106 @@ var getdata = function() {
         $("#mainSearch").listview('refresh');
     });  // end storage.on
 	
-}
-
-getdata();
+};
 		
-});
 
-$('#newItem').on('pagebeforeshow', function() {
-		
-		
-//store the data into local storage
-	var storeTheData = function(data,key) {
-		//if no key, then it's brand new and we need a new key
-		var id = Math.floor(Math.random() * 100000001);
-           if (!key) {
-			   
-           } else {
-			//set the id to the existing key so it will not overwrite the data
-               id = key;
-           }
-		//Gather up our form field values and store in an object
-		//Object properties contain an array with form label and input values
-//			getCheckBoxValue();           
-			var item = {};
-
-           //Gather form field values and store in an object
-           //Object properties contain an array with the form label and input value
-			item.type			= [$("#type").val()];
-			item.inputName		= [$("#inputName").val()];
-			item.inputAddress	= [$("#inputAddress").val()];
-			item.inputAddress2	= [$("#inputAddress2").val()];
-			item.inputCity		= [$("#inputCity").val()];
-			item.inputState		= [$("#inputState").val()];
-			item.inputZip		= [$("#inputZip").val()];
-			item.inputRating	= [$("#inputRating").val()];
-			item.inputDate		= [$("#inputDate").val()];
-			//item.inputHidden	= ["Hidden:", $("#inputHidden").val()];
-			item.inputArea		= [$("inputArea").val()];
-			item.inputCheck		= ["Favorite:", '.val()'];
+// delete single item from local storage
+		var	deleteItem = function (){
+			var ask = confirm("Are you sure you want to delete this pebble?");	
+			if(ask){
+				localStorage.removeItem(this.key);
+				alert("Pebble was deleted.");
+				window.location.reload();
+			}else{
+				alert("Pebble was not deleted.");
+			}
+		};		
 
 
-		
-		//Save data into local storage. Use stringify to convert object into a string		
-		localStorage.setItem(id, JSON.stringify(item));
-		
+//edit the items
+var editDataItem = function(keyArg){
+	//Grab data from local storage
+	var value = localStorage.getItem(keyArg);
+	var item = JSON.parse(value);
+	
+	//show submit button
+	var changeSubmit = function (){
+		$('#submit').parent().hide();
+		$('#submit2').parent().show();
+	}
+	changeSubmit();
+//	$('#submit2').text("Edit Pebble");
+
+	
+	console.log(item.inputName[0]);
+
+	
+	//Show the form
+//	toggleTheControls("off");
+	
+	//populate the form fields with current localStorage values
+	$("#type").val(item.type[0]).trigger('refresh');
+	$("#inputName").val(item.inputName[0]).trigger("create");
+	$("#inputAddress").val(item.inputAddress[0]).trigger("create");
+	$("#inputAddress2").val(item.inputAddress2[0]).trigger("create");
+	$("#inputCity").val(item.inputCity[0]).trigger("create");
+	$("#inputState").val(item.inputState[0]).trigger("create");
+	$("#inputZip").val(item.inputZip[0]).trigger("create");
+	$("#inputRating").val(item.inputRating[0]);
+	$("#inputDate").val(item.inputDate[0]).trigger("create");
+	$("#inputArea").val(item.inputArea[0]).trigger("create");
+	if(item.inputCheck[0] == "Yes"){
+		$("#addfav").attr("checked", "checked");
+	}
+	
+	var editSubmit = $("#submit");
+	
+	$('#submitForm').off('click');
+	
+	//save key value for reuse
+	editSubmit.on("click", validate);
+	editSubmit.key = this.key;
+	
+}		
+
+
+// clear local storage
+		var clearLocalStorage = function(){
+			if(localStorage.length === 0){
+				alert("There is no data to clear.")
+			}else{
+				localStorage.clear();
+				alert("All pebbles are deleted!");
+				window.location.reload();
+				return false;
+			}
+		};	
+
+
+//clear form fields
+		$.fn.clearForm = function() {
+			return this.each(function() {
+			var type = this.type, tag = this.tagName.toLowerCase();
+				if (tag == 'form')
+			return $(':input',this).clearForm();
+				if (type == 'text' || type == 'password' || tag == 'textarea')
+			this.value = '';
+				else if (type == 'checkbox' || type == 'radio')
+			this.checked = false;
+				else if (tag == 'select')
+			this.selectedIndex = -1;
+			});
 		};
+		//reset the form
+		$('#reset').clearForm();
+
+
+
+	
+	
+		
+		
+
 		
 		
 		//Get image for right category
@@ -235,159 +371,78 @@ $('#newItem').on('pagebeforeshow', function() {
 		}
 		
 		
+		
 
-		//show submit button
-		var showSubmit = function (){
-			$('#submit').parent().show();
-			$('#submit2').parent().hide();
-		}
+	
+	
+
 		
-		//Remove inital listener from save button
-		$('#submit').off("click", storeTheData);
-		
-		//change submit button to edit button
-		$("#submit").text("Edit Pebble");
-		var editSubmit = $("#submit");
-		
-		//save key value for reuse
-		editSubmit.on("click", validate);
-		editSubmit.key = this.key;
 		
 		itemsDiv = $("#items");
 		itemsDiv.parent().children(itemsDiv);
-	
-	
-		showSubmit();
 		
-		$.fn.clearForm = function() {
-			return this.each(function() {
-			var type = this.type, tag = this.tagName.toLowerCase();
-				if (tag == 'form')
-			return $(':input',this).clearForm();
-				if (type == 'text' || type == 'password' || tag == 'textarea')
-			this.value = '';
-				else if (type == 'checkbox' || type == 'radio')
-			this.checked = false;
-				else if (tag == 'select')
-			this.selectedIndex = -1;
-			});
-		};
-		//reset the form
-		$('#reset').clearForm();
-	
-	
-		var errMessage = $("#errorMessages");
-
-// validate the form	   
-		var validate = function(v){
-		//define the elements we want to check
-			var checkGroup = $("#type");
-			var checkName = $("#inputName");
-			var checkAddress = $("#inputAddress");
-			var checkCity = $("#inputCity");
-			var checkState = $("#inputState");
 		
-		//reset error messages
-			errMessage.html('');
-			checkGroup.css('border', '1px solid #cccccc');
-			checkName.css('border', '1px solid #cccccc');
-			checkAddress.css('border', '1px solid #cccccc');
-			checkCity.css('border', '1px solid #cccccc');
-			checkState.css('border', '1px solid #cccccc');
-
-		//get error messages
-			var messagesArray = [];
-		
-		//group validation
-			if(checkGroup.val() === "--Choose a Type--"){
-				var checkGroupError = "Please choose a group."
-				checkGroup.css('border', '1px solid red');
-				messagesArray.push(checkGroupError);
-			}
-		//name validation
-			if(checkName.val() === ""){
-				var checkNameError = "Please enter a name."
-				checkName.css('border', '1px solid red');
-				messagesArray.push(checkNameError);
-			}
-		//address validation
-			if(checkAddress.val() === ""){
-				var checkAddressError = "Please enter an address."
-				checkAddress.css('border', '1px solid red');
-				messagesArray.push(checkAddressError);
-			}
-		//city validation
-			if(checkCity.val() === ""){
-				var checkCityError = "Please enter a city."
-				checkCity.css('border', '1px solid red');
-				messagesArray.push(checkCityError);
-			}
-		//state validation
-			if(checkState.val() === ""){
-				var checkStateError = "Please enter a state."
-				checkState.css('border', '1px solid red');
-				messagesArray.push(checkStateError);
-			}
-		
-		//if there are errors, display them
-			if(messagesArray.length >= 1){
-				for(var i=0, j=messagesArray.length; i < j; i++){
-					var txt = $("li");
-					txt.html(messagesArray[i]);
-					errMessage.append(txt);
-			}
-			v.preventDefault();
-			return false;
-		}else{
-			//if no errors, save data. send key val from editData function
-			//remember this key value was passed through editSubmit as a property
-			storeTheData(this.key);
-			}
-		
-		}
-
-// clear local storage
-		var clearLocalStorage = function(){
-			if(localStorage.length === 0){
-				alert("There is no data to clear.")
-			}else{
-				localStorage.clear();
-				alert("All pebbles are deleted!");
-				window.location.reload();
-				return false;
-			}
-		};	
-// bind clear storage to button click
-		$("#clearStorage").click(clearLocalStorage);
 
 
-// delete single item from local storage
-	var	deleteItem = function (){
-		var ask = confirm("Are you sure you want to delete this pebble?");	
-		if(ask){
-			localStorage.removeItem(this.key);
-			alert("Pebble was deleted.");
-			window.location.reload();
-		}else{
-			alert("Pebble was not deleted.");
-		}
-	};
+		
+//		var parsePebbleForm = function(data){};
+//		
+//		var pebbleForm = $('#pebbleForm');
+//			pebbleForm.validate({
+//			invalidHandler: function(form, validator) {
+//		},
+//		submitHandler: function() {
+//		var data = pebbleForm.serializeArray();
+//			parsePebbleForm(data);
+//			storeTheData(data);
+//			}
+//		});
+
+
+
+$('#home').on('pagebeforeshow', function(event) {
+	console.log("Homepage is loaded.");
+	    // empty the main list
+    $("#mainSearch").empty();
 	
-	var parsePebbleForm = function(data){};
+    // add custom html
+    $('<li data-role="list-divider">Friday, October 8, 2010 <span class="ui-li-count">3</span></li>' +
+        '<li><a href="index.html"><h3>Stephen Weber</h3>' +
+        '<p><strong>You have been invited to a meeting at Filament Group in Boston, MA</strong></p>' +
+        '<p>Hey Stephen, we have got a meeting with the jQuery team.</p>' +
+        '<p class="ui-li-aside"><strong>6:24</strong>PM</p></a></li>').appendTo("#mainSearch");
+
+	getData();
+
+    // refresh the listview
+    $("#mainSearch").listview('refresh');
+		
+});
+
+
+$('#editItemPage').on('pagebeforeshow',function(event) {
+	console.log("View list of pebbles.");
+	$('#mainEditList').empty();
+	getData();
 	
-	var pebbleForm = $('#pebbleForm');
-		pebbleForm.validate({
-		invalidHandler: function(form, validator) {
-	},
-	submitHandler: function() {
-	var data = pebbleForm.serializeArray();
-		parsePebbleForm(data);
-		storeTheData(data);
-		}
+	// bind clear storage to button click
+	$('#clearStorage').on('click', function() {
+		clearLocalStorage();
 	});
+	
+});
 
 
+$('#newItem').on('pagebeforeshow', function(event) {
+	console.log("Add a Pebble.");
+	
+	$('#submit').val('Save').button('refresh');	
 
-
-
+	$('#submit').on('click', function() { validate() });
+	$('#delete').on('click', function() { deleteItem() });
+	
+	//Populate form to edit item data
+	if(pebbleItemKey) {
+		editDataItem();
+	}; 
 });
