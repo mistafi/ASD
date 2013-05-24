@@ -178,7 +178,7 @@ var loadInfo = function(dataJson) {
 					txt.html(messagesArray[i]);
 					errMessage.append(txt);
 			}
-			event.preventDefault();
+			//event.preventDefault();
 			return false;
 		}else{
 			//if no errors, save data. send key val from editData function
