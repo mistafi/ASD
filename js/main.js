@@ -13,12 +13,12 @@ var loadInfo = function(dataJson) {
 	if(dataJson === 'json') {
 		console.log('Loading JSON file');
 		$.ajax({
-			url: "json.js",
+			url: "pebbles.json",
 			type: "GET",
 			dataType: "json",
-			success: function(jsonObjects) {
-				console.log(jsonObjects)
-				var jsonObj = jsonObjects.pebbleItems;			
+			success: function(data) {
+				console.log(data)
+				var jsonObj = data.pebbleItems;			
 				//Loop through JSON data and store in local storage
 			    for ( var n in jsonObj) {
 			        localStorage.setItem(n, JSON.stringify(jsonObj[n]));
@@ -33,14 +33,14 @@ var loadInfo = function(dataJson) {
 			url: "pebbles.xml",
 			type: "GET",
 			dataType: "xml",
-			success: function(xmlObjects) {
-				console.log(xmlObjects)
-				var xmlData = $(xmlObjects),
+			success: function(data) {
+				console.log(data)
+				var xmlData = $(data),
 					xmlPebbles = xmlData.find('pebbleItems'),
 					xmlObj = {}
 
 				//Build Object per each childNode within each pebble.
-				xmlObjects.each(function(i) {
+				xmlPebbles.each(function(i) {
 					xmlObj = {};
 					xmlObj.type 			= [$(this).find('type').text()];
 					xmlObj.inputName		= [$(this).find('inputName').text()];
@@ -114,7 +114,7 @@ var loadInfo = function(dataJson) {
 		var errMessage = $("#errorMessages");
 
 // validate the form	   
-		var validate = function(event){
+		var validate = function(){
 			console.log("Validating the data form.");
 			
 			var requiredEl = $('.required');
@@ -178,7 +178,6 @@ var loadInfo = function(dataJson) {
 					txt.html(messagesArray[i]);
 					errMessage.append(txt);
 			}
-			//event.preventDefault();
 			return false;
 		}else{
 			//if no errors, save data. send key val from editData function
@@ -198,9 +197,9 @@ var getData = function() {
 		if (!localStorage.length) {
 			var verify = confirm('No Pebbles have been saved. Load sample JSON data by choosing OK, or select cancel to load XML.')
 			if(verify) {
-				loadData('json');	
+				loadInfo('json');	
 			} else {
-				loadData('xml');
+				loadInfo('xml');
 			};			
 		};
 		
