@@ -1,7 +1,7 @@
 {
   "env": {
     "default": {
-      "db": "http://user:password@127.0.0.1:5984/asdpebbly"
+      "db": "http://mistafi:supersecret1@127.0.0.1:5984/asdpebbly"
     }
   }
 }
