@@ -13,7 +13,7 @@ var loadInfo = function(dataJson) {
 	if(dataJson === 'json') {
 		console.log('Loading JSON file');
 		$.ajax({
-			url: "json.js",
+			url: "pebbles.json",
 			type: "GET",
 			dataType: "json",
 			success: function(jsonObjects) {
@@ -198,9 +198,9 @@ var getData = function() {
 		if (!localStorage.length) {
 			var verify = confirm('No Pebbles have been saved. Load sample JSON data by choosing OK, or select cancel to load XML.')
 			if(verify) {
-				loadData('json');	
+				getData('json');	
 			} else {
-				loadData('xml');
+				getData('xml');
 			};			
 		};
 		
