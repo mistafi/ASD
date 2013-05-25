@@ -1,7 +1,7 @@
 // JavaScript Document
-// ASD Project 1 
+// ASD Project 1,2,3,4 
 // Joshua Wisecup
-// Term 1304
+// Term 1305
 
 
 var pebbleItemKey = '';
@@ -178,7 +178,7 @@ var loadInfo = function(dataJson) {
 					txt.html(messagesArray[i]);
 					errMessage.append(txt);
 			}
-			event.preventDefault();
+			//event.preventDefault();
 			return false;
 		}else{
 			//if no errors, save data. send key val from editData function

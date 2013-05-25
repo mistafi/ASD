@@ -1,7 +1,8 @@
 // JSON Document
-// MIU Project 4 
+// ASD Project 1,2,3,4 
 // Joshua Wisecup
-// Term 1302 
+// Term 1305
+
 $("#home").on("pagebeforecreate", function () {
     localStorage.clear();
    var jsonData =
