@@ -1,29 +1,332 @@
 <!DOCTYPE html>
+    	<!-- ASD Project 1,2,3,4-->
+    	<!-- Joshua Wisecup -->
+    	<!-- Term 1304 -->
 <html>
-  <head>
-    <title>My New CouchApp</title>
-    <link rel="stylesheet" href="style/main.css" type="text/css">
-  </head>
-  <body>
-    <div id="account"></div>
+    <head>
+        <title>Pebbly</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta http-equiv="cleartype" content="on">
+        
+		<!-- the css -->
+        <link rel="stylesheet" href="css/jquery.mobile-1.3.1.min.css" />
+        <link href='http://fonts.googleapis.com/css?family=Oxygen:400,700' rel='stylesheet' type='text/css'>       
+        <link rel="stylesheet" href="css/pebbly.css" />
+        <link rel="stylesheet" href="css/app.css" />
 
-    <h1>Generated CouchApp</h1>
+        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements
+ 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
+        </script> -->
 
-    <div id="profile"></div>
-    <div id="items"></div>
+    	<!-- Le fav and touch icons -->
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-57-precomposed.png">
+        <link rel="shortcut icon" href="img/favicon.png">
 
-    <div id="sidebar">
-      <p>Edit welcome message.</p>
-      <p>Ideas: You could easily turn this into a photo sharing app, or a grocery list, or a chat room.</p>
+    </head>
+    
+    <body>
+    
+    <div id="main">
+    	<!-- Homepage -->
+		<section data-role="page" id="home" data-url="home" data-theme="a" class="homepage">
+        
+            <header data-role="header" data-position="fixed">
+            	<h1>Pebbly</h1>
+            </header><!-- /header -->
+
+            <div id="main" data-role="content">
+            
+                <div class="action ui-grid">
+                    <div class="item active">
+                      <img src="img/pebble_sm.jpg" alt="">
+                        <div class="action-caption">
+                          <h1>Retrace Your Steps</h1>
+                          <a class="itemButton" href="#newItem" data-role="button" data-theme="a" data-inline="true">Add a Pebble</a>
+                        </div>
+                    </div>    		
+                </div><!-- /ui-grid -->
+                
+                <p class="lead">Save your faves. Get back again.</p>
+                
+                
+                <ul id="mainSearch" data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search locations..." data-inset="true" data-theme="a">
+<!--                <li><a href="#">Apple</a></li>
+                    <li><a href="#">Banana</a></li>
+                    <li><a href="#">Cherry</a></li>
+                    <li><a href="#">Cranberry</a></li>
+                    <li><a href="#">Grape</a></li>
+                    <li><a href="#">Orange</a></li>-->
+                </ul>
+                
+                <p><a href="#" data-role="button" id="getStorage">Get local storage.</a></p>
+
+                
+                <ul data-role="listview" data-inset="true" data-theme="a">
+                    <li>
+                        <img src="img/Restaurant.png" class="mainListImg">
+                        <h3 class="mainListHeader">Restaurant</h3>
+                         <ul data-role="listview" data-inset="true" data-autodividers="true" data-filter="true" data-theme="a">    
+                         </ul>
+                    </li>
+                    <li>
+						<img src="img/Gas%20Station.png" class="mainListImg">
+                        <h3 class="mainListHeader">Gas Station</h3>
+                        <ul data-role="listview" data-inset="true" data-autodividers="true" data-filter="true" data-theme="a">
+						</ul>
+                    </li>
+                    <li>
+                    	<img src="img/Retail%20Store.png" class="mainListImg">                        
+                        <h3 class="mainListHeader">Retail Store</h3>
+                        <ul data-role="listview" data-inset="true" data-autodividers="true" data-filter="true" data-theme="a">   
+                        </ul>
+                    </li>
+                    <li>
+                    	<img src="img/city.png" class="mainListImg">                        
+                        <h3 class="mainListHeader">Browse by City</h3>
+                        <ul data-role="listview" data-inset="true" data-filter="true" data-theme="a">  
+                        </ul>
+                    </li>
+                    <li>
+                        <img src="img/star.png" class="mainListImg">                        
+                        <h3 class="mainListHeader">Favorites</h3>
+                        <ul data-role="listview" data-inset="true" data-autodividers="true" data-filter="true" data-theme="a"> 
+                        </ul>
+                    </li>
+                </ul>               
+            </div><!-- /content -->
+
+            <footer data-role="footer" data-position="fixed">
+                <nav data-role="navbar">
+                    <ul>
+                        <li><a href="#" data-icon="star" class="ui-btn-active">Home</a></li>
+                        <li><a href="#about" data-icon="info">About</a></li>
+                        <li><a href="#newItem" data-icon="gear">Add New</a></li>
+                        <li><a href="#editItemPage" data-icon="grid">View All</a></li>
+                    </ul>
+                </nav>
+            </footer><!-- /footer -->
+            
+        </section><!-- /front page -->
+        
+
+    	<!-- About -->
+    	<section data-role="page" id="about" data-url="about" data-theme="a" class="about">
+        
+            <header data-role="header" data-position="fixed">
+            	<h1>Pebbly</h1>
+            </header><!-- /header -->
+
+            <div id="main" data-role="content">
+                <p>
+                Pebbly is an app that lets you save your favorite places so you can retrace your steps.
+                </p>
+                <div data-theme="b">
+                    <h2>About</h2>
+                        <ul data-role="listview" data-inset="true" data-theme="c">
+                            <li><a href="https://github.com/mistafi/MIU/tree/MIU-Working-Copy">Main Git</a></li>
+                            <li><a href="https://github.com/mistafi/MIU/tree/MIU-Working-Copy/MIU_Wisecup_Joshua_project2">Project Git</a></li>
+                            <li><a href="https://github.com/mistafi/MIU/tree/MIU-Working-Copy/MIU_Wisecup_Joshua_project2/gold">Gold Project</a></li>
+                            <li><a href="https://github.com/mistafi/MIU/tree/MIU-Working-Copy/MIU_Wisecup_Joshua_project2/bronze">Bronze Project</a></li>
+                        </ul>
+                </div>
+                <h2>The Creator</h2>
+                <p>
+                Joshua is a web designer who loves to travel, and visit new and unique places. This app was born out of the idea that there are people out there who have the same adventurous heart, and want to go back again!
+                </p>
+             </div><!-- /content -->
+
+            <footer data-role="footer" data-position="fixed">
+                <nav data-role="navbar">
+                    <ul>
+                        <li><a href="#home" data-icon="star">Home</a></li>
+                        <li><a href="#about" data-icon="info" class="ui-btn-active">About</a></li>
+                        <li><a href="#newItem" data-icon="gear">Add New</a></li>
+                        <li><a href="#editItemPage" data-icon="grid">View All</a></li>
+                    </ul>
+                </nav>
+            </footer><!-- /footer -->
+            
+        </section>
+        
+        <!-- New Item / Form Page -->
+    	<section data-role="page" id="newItem" data-url="newItem" data-theme="a" class="newItem">
+        
+            <header data-role="header" data-position="fixed">
+            	<h1>Add Pebble</h1>
+            </header><!-- /header -->
+
+            <div data-role="content" id="mainFormContainer" class="addItem">
+               
+<!--               <div data-role="navbar">
+                    <ul class="nav nav-pills">
+                      <li><a id="clearData" href="#"><i class="icon-remove"></i> Clear Stored Data</a></li>
+                      <li><a id="displayDataLink" href="#editItemPage"><i class="icon-list"></i> Display Data</a></li>
+                    </ul>  
+				</div>    -->              
+                
+                <ul id="errorMessages"></ul>
+
+                 <form action="#" method="post" class="form-horizontal" id="pebbleForm" data-ajax=ÓfalseÓ>
+                  <div class="control-group" data-role="fieldcontain">
+<!--                    <label id="labelSelect" class="control-label" for="dropdownSelect">Type*</label>
+-->                    	<select id="type" data-native-menu="false" data-theme="a" class='required'>
+                        	<option value="--Choose a Type--">--Choose a Type--</option>
+                        	<option value="Restaurant">Restaurant</option>
+                        	<option value="Gas Station">Gas Station</option>
+                        	<option value="Retail Store">Retail Store</option>
+                        </select>
+<!--                            <div id="selectDiv" class="controls">
+                    		</div>
+                        <span class="example">Please select a Pebble type.</span>-->
+                  </div>
+                                       
+                  <div class="control-group" data-role="fieldcontain">
+                    <label class="control-label" for="inputName">Name*</label>
+                      <input type="text" id="inputName" placeholder="Pebble Name" class="required">
+<!--                      <span class="example">Please enter the name of the Pebble.</span>
+-->                  </div>
+                  <div class="control-group" data-role="fieldcontain">
+                    <label class="control-label" for="inputAddress">Address*</label>
+                      <input type="text" id="inputAddress" placeholder="Address" class="required">
+<!--                      <span class="example">Please enter your home address.</span>
+-->                  </div>                  
+<!--                  <div class="control-group" data-role="fieldcontain">
+                    <label class="control-label" for="inputAddress2">Address 2</label>
+                      <input type="text" id="inputAddress2" placeholder="Apt or Suite #">
+                  </div> -->
+                  <div class="control-group" data-role="fieldcontain">
+                    <label class="control-label" for="inputCity">City*</label>
+                      <input type="text" id="inputCity" placeholder="City" class="required">
+<!--                      <span class="example">Please enter your city.</span>
+-->                  </div>                  
+                  <div class="control-group" data-role="fieldcontain">
+                    <label class="control-label" for="inputState">State*</label>
+                      <input type="text" id="inputState" placeholder="State" class="required">
+                      <span class="example">Please enter your state i.e. KY</span>
+                  </div>  
+                  <div class="control-group" data-role="fieldcontain">
+                    <label class="control-label" for="inputZip">Zip Code*</label>
+                      <input type="text" id="inputZip" placeholder="Zip Code" class="required">
+<!--                    <span class="example">Please enter a five digit zip code.</span>
+-->                  </div>  
+                  <div class="control-group" data-role="fieldcontain">
+                    <label class="control-label" for="inputRating">Rating</label>
+                     <input type="range" min="0" max="10" step="1" value="5" id="inputRating">
+<!--                      <span class="example">Rate your experience.</span>
+-->                  </div> 
+                  <div class="control-group" data-role="fieldcontain">
+                    <label class="control-label" for="inputDate">Date of Visit</label>
+                      <input type="date" id="inputDate">
+<!--                      <span class="example">When was your recent visit?</span>
+-->                  </div> 
+  <!--                  <div class="control-group">
+                      <input type="hidden" id="inputHidden" value="Text">
+                  </div>
+                 <div class="control-group" data-role="fieldcontain">
+                    <label class="control-label" for="inputArea">Notes</label>
+						<textarea id="inputArea" rows="3" placeholder="What did you want to remember?"></textarea>                    
+                  </div> 
+                   <div data-role="fieldcontain">
+                        <fieldset data-role="controlgroup">
+                           <legend>Add to Favorites</legend>
+                           <input type="checkbox" name="checkbox-agree" id="addfav" class="custom" value="Yes" data-theme="a"/>
+                           <label class="checkbox" for="addfav">Yes</label>
+                        </fieldset>
+                    </div>      -->              
+                    
+                          	<input type="submit" id="submit" class="btn btn-large btn-block btn-success ui-block-b" value="Add Pebble" data-theme="b">
+                          	<!--<input type="submit" id="submit2" class="btn btn-large btn-block btn-success ui-block-b" value="Edit Pebble" data-theme="b">-->
+                          	<input type="reset" id="reset" class="btn btn-large btn-block btn-info" value="Reset" data-theme="a">
+                            <input type="button" id="delete" class="btn btn-large btn-block btn-info" value="Delete" data-theme="c"/>
+
+                </form>
+            </div><!-- /content -->
+
+            <footer data-role="footer" data-position="fixed">
+                <nav data-role="navbar">
+                    <ul>
+                        <li><a href="#home" data-icon="star">Home</a></li>
+                        <li><a href="#about" data-icon="info">About</a></li>
+                        <li><a href="#" data-icon="gear" class="ui-btn-active">Add New</a></li>
+                        <li><a href="#editItemPage" data-icon="grid">View</a></li>
+                    </ul>
+                </nav>
+            </footer><!-- /footer -->
+            
+        </section><!-- /editpage -->
+
+    	<!-- Edit Page -->
+    	<section data-role="page" id="editItemPage" data-url="edit" class="editItemPage" data-theme="a" data-add-back-btn="true">
+        
+            <header data-role="header" data-position="fixed">
+            	<h1>Pebbly</h1>
+            </header><!-- /header -->
+
+            <div data-role="content" id="editFormContainer">
+                
+				<ul id="mainEditList" data-inset="true" data-theme="a" class="unstyled well">
+
+				</ul>
+                
+                <p><a href="#" data-role="button" id="getNewStorage">Get local storage.</a></p>
+                <p><a href="#" data-role="button" id="clearStorage">Clear local storage.</a></p>
+
+                 
+            </div><!-- /content -->
+
+            <footer data-role="footer" data-position="fixed">
+                <nav data-role="navbar">
+                    <ul>
+                        <li><a href="#home" data-icon="star">Home</a></li>
+                        <li><a href="#about" data-icon="info">About</a></li>
+                        <li><a href="#newItem" data-icon="gear">Add New</a></li>
+                        <li><a href="#" data-icon="grid" class="ui-btn-active">View</a></li>
+                    </ul>
+                </nav>
+            </footer><!-- /footer -->
+            
+        </section><!-- /displaypage -->
+
+    	<!-- 404 Page -->
+
+    	<section data-role="page" id="404" data-url="404" class="404" data-theme="a">
+        
+            <header data-role="header" data-position="fixed">
+            	<h1>Pebbly</h1>
+            </header><!-- /header -->
+
+            <div data-role="content">
+            	<p>We're sorry! The page you have reached does not exist. Let's go back to the beginning and try this again. 
+				</p>
+				<a href="#home" data-role="button" data-theme="c" data-inline="true">Go To Homepage</a> 
+            </div><!-- /content -->
+
+            <footer data-role="footer" data-position="fixed">
+                <nav data-role="navbar">
+                    <ul>
+                        <li><a href="#home" data-icon="star">Home</a></li>
+                        <li><a href="#about" data-icon="info">About</a></li>
+                        <li><a href="#newItem" data-icon="gear">Add New</a></li>
+                        <li><a href="#editItemPage" data-icon="grid">View</a></li>
+                    </ul>
+                </nav>
+            </footer><!-- /footer -->
+            
+        </section><!-- /displaypage -->
+        
+    
     </div>
-  </body>
-  <script src="vendor/couchapp/loader.js"></script>
-  <script type="text/javascript" charset="utf-8">
-    $.couch.app(function(app) {
-      $("#account").evently("account", app);
-      $("#profile").evently("profile", app);
-      $.evently.connect("#account","#profile", ["loggedIn","loggedOut"]);
-      $("#items").evently("items", app);
-    });
-  </script>
+    
+		<!-- the scripts -->
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/jquery.mobile-1.3.1.min.js"></script>
+<!--        <script src="js/libs/jquery.validate.min.js"></script>-->  
+		<script src="js/main.js"></script>
+	</body>
 </html>
+
