@@ -3,10 +3,10 @@
 // Joshua Wisecup
 // Term 1305
 
-$("#home").on("pagebeforecreate", function () {
-    localStorage.clear();
-   var jsonData =
- 
+//$("#home").on("pagebeforecreate", function () {
+//    localStorage.clear();
+//   var jsonData =
+// 
 { 
 		"pebbleItems" : [
             		{
@@ -272,12 +272,12 @@ $("#home").on("pagebeforecreate", function () {
 		]
     }
 	
-;
-
-    $.each(jsonData.pebbleItems, function (index, singleItem) {
-        var _id = Math.floor(Math.random() * 100001);
-        var toStore = JSON.stringify(singleItem);
-        localStorage.setItem(_id, toStore);
-        console.log("Saved item " + index + " to storage with _id = " + _id);
-    });
-});
+//;
+//
+//    $.each(jsonData.pebbleItems, function (index, singleItem) {
+//        var _id = Math.floor(Math.random() * 100001);
+//        var toStore = JSON.stringify(singleItem);
+//        localStorage.setItem(_id, toStore);
+//        console.log("Saved item " + index + " to storage with _id = " + _id);
+//    });
+//});

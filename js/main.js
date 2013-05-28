@@ -5,15 +5,14 @@
 
 
 var pebbleItemKey = '';
-//categories not ready yet
-//var pebbleCategory = '';
+var pebbleCategory = '';
 
 //load data in ajax and xml
 var loadInfo = function(dataJson) {
 	if(dataJson === 'json') {
 		console.log('Loading JSON file');
 		$.ajax({
-			url: "pebbles.json",
+			url: "js/pebbles.json",
 			type: "GET",
 			dataType: "json",
 			success: function(data) {
@@ -30,7 +29,7 @@ var loadInfo = function(dataJson) {
 	} else {
 		console.log('Loading xml document');
 		$.ajax({
-			url: "pebbles.xml",
+			url: "js/pebbles.xml",
 			type: "GET",
 			dataType: "xml",
 			success: function(data) {
@@ -60,13 +59,13 @@ var loadInfo = function(dataJson) {
 				//get the list of data
 				getData();	
 			}
-		})			
+		})	
 	}
 
 };
 
 //store the data into local storage
-	var storeTheData = function(data,key) {
+	var storeTheData = function() {
 		//if no key, then it's brand new and we need a new key
 		var key;
 		//var id = Math.floor(Math.random() * 100000001);
@@ -116,7 +115,7 @@ var loadInfo = function(dataJson) {
 // validate the form	   
 		var validate = function(){
 			console.log("Validating the data form.");
-			
+
 			var requiredEl = $('.required');
 			requiredEl.removeClass('error');
 
@@ -190,8 +189,10 @@ var loadInfo = function(dataJson) {
 		
 var getData = function() {
     // Get localStorage and add to button click
-    $("#getStorage").on('click', function(){
-        $("#mainSearch").empty();
+//    $("#getStorage").on('click', function(){
+		var mainList = $('#mainEditList');
+
+//        $("#mainSearch").empty();
 		
 		//If no data, pre-populate with JSON
 		if (!localStorage.length) {
@@ -202,32 +203,89 @@ var getData = function() {
 				loadInfo('xml');
 			};			
 		};
-		
 
+//this is what i tried
+	
+//        for (var i= 0, j=localStorage.length; i<j ; i++){
+//            var key = localStorage.key(i);
+//            var item = JSON.parse(localStorage.getItem(key));
+//            console.log(item);
+//            var makeSubList = $("<li></li>");
+//            var makeSubLi = $( "<h3>"+item.type[0]+"</h3>"+
+//                "<p><strong>"+item.inputName[0]+"</strong></p>"+
+//                "<p>"+item.inputRating[0]+"</p>" +
+//                "<p>"+item.inputArea[0]+"</p>" );
+//            var makeLink = $("<a href='#newItem' id='"+key+"'>Edit</a>");
+//            makeLink.on('click', function(){
+//                console.log("This is my key: "+this.id);
+//				//Edit Item here this.id is key
+//				//this.attr('id');
+//				editDataItem(this.id);
+//				//get item populate form
+//				//change from save to edit item in form				
+//            });
+//            makeLink.html(makeSubLi);
+//            makeSubList.append(makeLink).appendTo("#mainSearch");
+//        }; // end for loop
+//        $("#mainSearch").listview('refresh');	
 		
-        for (var i= 0, j=localStorage.length; i<j ; i++){
-            var key = localStorage.key(i);
-            var item = JSON.parse(localStorage.getItem(key));
-            console.log(item);
-            var makeSubList = $("<li></li>");
-            var makeSubLi = $( "<h3>"+item.type[0]+"</h3>"+
-                "<p><strong>"+item.inputName[0]+"</strong></p>"+
-                "<p>"+item.inputRating[0]+"</p>" +
-                "<p>"+item.inputArea[0]+"</p>" );
-            var makeLink = $("<a href='#newItem' id='"+key+"'>Edit</a>");
-            makeLink.on('click', function(){
-                console.log("This is my key: "+this.id);
-				//Edit Item here this.id is key
-				//this.attr('id');
-				editDataItem(this.id);
-				//get item populate form
-				//change from save to edit item in form				
-            });
-            makeLink.html(makeSubLi);
-            makeSubList.append(makeLink).appendTo("#mainSearch");
-        }; // end for loop
-        $("#mainSearch").listview('refresh');
-    });  // end storage.on
+		
+		
+		
+		
+	//if pebbleCategory is defined
+	if(pebbleCategory) {
+		$('#editItemPage h2').html('Viewing ' + pebbleCategory + 's');	
+	};
+	
+	//Loop through all localstorage items and draw to stage
+	for(var i = 0, j=localStorage.length; i<j; i++ ){
+		//Define key per loopIndex
+		var localObjKey = localStorage.key(i);
+		//Convert localStorage item back to object
+		var localObj = JSON.parse(localStorage.getItem(localObjKey));
+		
+		if(pebbleCategory) {
+			if(pebbleCategory === localObj.type[0]) {
+				$('' + 
+					'<li>' +
+						'<a href="#editItemPage" data-key="' + localObjKey + '" data-transition="slide" class="itemLink">' +
+							'<img src="images/' + localObj.type[0] + '.png" class="ul-li-icon">' +
+							'<h3>' + localObj.inputName[0] + '</h3>' +
+							'<p>' + localObj.inputArea[0] + '</p>' +
+						'</a>' +
+						'<a href="#newItem" data-key="' + localObjKey + '" data-transition="slide">Edit</a>' +
+					'</li>'
+				).appendTo(mainList);					
+			};
+		} else {
+			$('' + 
+				'<li>' +
+					'<a href="#editItemPage" data-key="' + localObjKey + '" data-transition="slide" class="itemLink">' +
+						'<img src="images/' + localObj.type[0] + '.png" class="ul-li-icon">' +
+						'<h3>' + localObj.inputName[0] + '</h3>' +
+						'<p>' + localObj.inputArea[0] + '</p>' +
+					'</a>' +
+					'<a href="#newItem" data-key="' + localObjKey + '" data-transition="slide">Edit</a>' +
+				'</li>'
+			).appendTo(mainList);	
+		};
+	};
+
+	//Bind Edit Functionality
+	$('a[data-key]').on('click', function() {
+		pebbleItemKey = $(this).attr('data-key');
+	})
+
+	//Reset pebbleCategory
+	pebbleCategory = '';
+
+	//Refresh JQM list component
+//	mainList.listview('refresh');	
+		
+			
+		
+//    });  // end storage.on
 	
 };
 		
@@ -236,9 +294,15 @@ var getData = function() {
 		var	deleteItem = function (){
 			var ask = confirm("Are you sure you want to delete this pebble?");	
 			if(ask){
-				localStorage.removeItem(this.key);
+				localStorage.removeItem(pebbleItemKey);
 				alert("Pebble was deleted.");
+				pebbleItemKey = '';
 				window.location.reload();
+			$.mobile.changePage("#editItemPage",{
+			reverse: true,
+			transition: "slide"
+		});	
+	
 			}else{
 				alert("Pebble was not deleted.");
 			}
@@ -322,63 +386,48 @@ var editDataItem = function(keyArg){
 		//reset the form
 		$('#reset').clearForm();
 
-
-
-	
-	
 		
-		
-
-		
-		
-		//Get image for right category
-		function getCatImage(categoryName, makeSubList){
-			var imageNewLi = $("li");
-			makeSubList.append(imageNewLi);
-			var newCatImg = $("img");
-			var setSrc = newCatImg.attr("src", "img/"+ categoryName + ".png");
-			imageNewLi.append(newCatImg);
-		}
-	
-			
-		//Make Navigation Links for Items
-		//create edit and delete links
-		function makeNavLinksLi(key, navLinksLi){
-			//add edit single item link
-			var editDataLink = $("a");
-			editDataLink.attr({"href": "#", "class": "btn btn-info"});
-			editDataLink.key = key;
-			var editDataText = "Edit Pebble";
-			editDataLink.on("click", editDataItem);
-			editDataLink.html(editDataText);
-			navLinksLi.append(editDataLink);
-			
-			//add line break
-			//var breakReturnTag = document.createElement("br");
-			//navLinksLi.appendChild(breakReturnTag);
-			
-			
-			//add delete single item link
-			var deleteDataLink = $("a");
-			deleteDataLink.attr({"href": "#", "class": "btn btn-danger"});
-			deleteDataLink.key = key;
-			var deleteDataText = "Delete Pebble";
-			deleteDataLink.on("click", deleteDataItem);
-			deleteDataLink.html(deleteDataText);
-			navLinksLi.append(deleteDataLink);
-		
-		}
-		
-		
-		
-
-	
-	
-
-		
-		
-		itemsDiv = $("#items");
-		itemsDiv.parent().children(itemsDiv);
+//		//Get image for right category
+//		function getCatImage(categoryName, makeSubList){
+//			var imageNewLi = $("li");
+//			makeSubList.append(imageNewLi);
+//			var newCatImg = $("img");
+//			var setSrc = newCatImg.attr("src", "img/"+ categoryName + ".png");
+//			imageNewLi.append(newCatImg);
+//		}
+//	
+//			
+//		//Make Navigation Links for Items
+//		//create edit and delete links
+//		function makeNavLinksLi(key, navLinksLi){
+//			//add edit single item link
+//			var editDataLink = $("a");
+//			editDataLink.attr({"href": "#", "class": "btn btn-info"});
+//			editDataLink.key = key;
+//			var editDataText = "Edit Pebble";
+//			editDataLink.on("click", editDataItem);
+//			editDataLink.html(editDataText);
+//			navLinksLi.append(editDataLink);
+//			
+//			//add line break
+//			//var breakReturnTag = document.createElement("br");
+//			//navLinksLi.appendChild(breakReturnTag);
+//			
+//			
+//			//add delete single item link
+//			var deleteDataLink = $("a");
+//			deleteDataLink.attr({"href": "#", "class": "btn btn-danger"});
+//			deleteDataLink.key = key;
+//			var deleteDataText = "Delete Pebble";
+//			deleteDataLink.on("click", deleteDataItem);
+//			deleteDataLink.html(deleteDataText);
+//			navLinksLi.append(deleteDataLink);
+//		
+//		}
+//		
+//		
+//		itemsDiv = $("#items");
+//		itemsDiv.parent().children(itemsDiv);
 		
 		
 
@@ -402,19 +451,25 @@ var editDataItem = function(keyArg){
 $('#home').on('pagebeforeshow', function(event) {
 	console.log("Homepage is loaded.");
 	    // empty the main list
-    $("#mainSearch").empty();
+//    $("#mainSearch").empty();
+//	
+//    // add custom html
+//    $('<li data-role="list-divider">Friday, October 8, 2010 <span class="ui-li-count">3</span></li>' +
+//        '<li><a href="index.html"><h3>Stephen Weber</h3>' +
+//        '<p><strong>You have been invited to a meeting at Filament Group in Boston, MA</strong></p>' +
+//        '<p>Hey Stephen, we have got a meeting with the jQuery team.</p>' +
+//        '<p class="ui-li-aside"><strong>6:24</strong>PM</p></a></li>').appendTo("#mainSearch");
+//
+//	getData();
+//
+//    // refresh the listview
+//    $("#mainSearch").listview('refresh');
+
+	$('.category').on('click', function() {
+		pebbleCategory = $(this).attr('data-category');
+	});	
 	
-    // add custom html
-    $('<li data-role="list-divider">Friday, October 8, 2010 <span class="ui-li-count">3</span></li>' +
-        '<li><a href="index.html"><h3>Stephen Weber</h3>' +
-        '<p><strong>You have been invited to a meeting at Filament Group in Boston, MA</strong></p>' +
-        '<p>Hey Stephen, we have got a meeting with the jQuery team.</p>' +
-        '<p class="ui-li-aside"><strong>6:24</strong>PM</p></a></li>').appendTo("#mainSearch");
-
-	getData();
-
-    // refresh the listview
-    $("#mainSearch").listview('refresh');
+	$('#editItemPage h2').html('Viewing All Pebbles');
 		
 });
 
@@ -445,3 +500,9 @@ $('#newItem').on('pagebeforeshow', function(event) {
 		editDataItem();
 	}; 
 });
+
+
+
+
+
+
