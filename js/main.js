@@ -35,7 +35,7 @@ var loadInfo = function(dataJson) {
 			success: function(data) {
 				console.log(data)
 				var xmlData = $(data),
-					xmlPebbles = xmlData.find('pebbleItems'),
+					xmlPebbles = xmlData.find('pebble'),
 					xmlObj = {}
 
 				//Build Object per each childNode within each pebble.
@@ -110,13 +110,13 @@ var loadInfo = function(dataJson) {
 };
 
 
-		var errMessage = $("#errorMessages");
 
 // validate the form	   
 		var validate = function(){
 			console.log("Validating the data form.");
 
 			var requiredEl = $('.required');
+			var errMessage = $("#errorMessages");
 			requiredEl.removeClass('error');
 
 
@@ -281,7 +281,7 @@ var getData = function() {
 	pebbleCategory = '';
 
 	//Refresh JQM list component
-//	mainList.listview('refresh');	
+	//mainList.listview('refresh');	
 		
 			
 		
@@ -294,7 +294,7 @@ var getData = function() {
 		var	deleteItem = function (){
 			var ask = confirm("Are you sure you want to delete this pebble?");	
 			if(ask){
-				localStorage.removeItem(pebbleItemKey);
+				localStorage.removeItem(this.key);
 				alert("Pebble was deleted.");
 				pebbleItemKey = '';
 				window.location.reload();
@@ -312,6 +312,7 @@ var getData = function() {
 //edit the items
 var editDataItem = function(keyArg){
 	//Grab data from local storage
+	var keyArg = pebbleItemKey;
 	var value = localStorage.getItem(keyArg);
 	var item = JSON.parse(value);
 	
@@ -331,7 +332,7 @@ var editDataItem = function(keyArg){
 //	toggleTheControls("off");
 	
 	//populate the form fields with current localStorage values
-	$("#type").val(item.type[0]).trigger('refresh');
+	$("#type").val(item.type[0]).trigger("refresh");
 	$("#inputName").val(item.inputName[0]).trigger("create");
 	$("#inputAddress").val(item.inputAddress[0]).trigger("create");
 	$("#inputAddress2").val(item.inputAddress2[0]).trigger("create");
@@ -484,7 +485,13 @@ $('#editItemPage').on('pagebeforeshow',function(event) {
 		clearLocalStorage();
 	});
 	
+	
 });
+
+$('#editItemPage').on('pageinit',function(event) {
+	//$('#mainEditList').listview('refresh');	
+});
+
 
 
 $('#newItem').on('pagebeforeshow', function(event) {
