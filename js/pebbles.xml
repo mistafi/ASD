@@ -184,7 +184,7 @@
 		<inputCheck>No</inputCheck>
 	</pebble>
 	<pebble>
-		<type>Gas Station"</type>
+		<type>Gas Station</type>
 		<inputName>Johnson's BP</inputName>
 		<inputAddress>800 Alameda Freeway</inputAddress>
 		<inputAddress2></inputAddress2>

@@ -3,22 +3,34 @@
 // Joshua Wisecup
 // Term 1305
 
+//global variables
+var pebbleKey = '';
+var pebbleCat = '';
+var mainList = $('#mainEditList');
+var errMessage = $("#errorMessages");
+var clearErrors = function() {
+	$('#messagesArray').empty().hide();
+};
 
-var pebbleItemKey = '';
-var pebbleCategory = '';
+
 
 //load data in ajax and xml
-var loadInfo = function(dataJson) {
-	if(dataJson === 'json') {
+var loadInfo = function(dataLoad) {
+	if(dataLoad === 'json') {
 		console.log('Loading JSON file');
 		$.ajax({
 			url: "js/pebbles.json",
 			type: "GET",
 			dataType: "json",
+			statusCode: {
+				404: function() {
+				  alert("Page not found.");
+				}
+			  },
 			success: function(data) {
 				console.log(data)
-				var jsonObj = data.pebbleItems;			
-				//Loop through JSON data and store in local storage
+				var jsonObj = data.pebbles;			
+				//save JSON to localstorage
 			    for ( var n in jsonObj) {
 			        localStorage.setItem(n, JSON.stringify(jsonObj[n]));
 			    };
@@ -32,28 +44,32 @@ var loadInfo = function(dataJson) {
 			url: "js/pebbles.xml",
 			type: "GET",
 			dataType: "xml",
+			statusCode: {
+				404: function() {
+				  alert("Page not found.");
+				}
+			 	},
 			success: function(data) {
 				console.log(data)
 				var xmlData = $(data),
-					xmlPebbles = xmlData.find('pebbleItems'),
+					xmlPebbles = xmlData.find('pebble'),
 					xmlObj = {}
-
-				//Build Object per each childNode within each pebble.
+				
 				xmlPebbles.each(function(i) {
 					xmlObj = {};
 					xmlObj.type 			= [$(this).find('type').text()];
 					xmlObj.inputName		= [$(this).find('inputName').text()];
 					xmlObj.inputAddress 	= [$(this).find('inputAddress').text()];
-					xmlObj.inputAddress2 	= [$(this).find('inputAddress2').text()];
+//					xmlObj.inputAddress2 	= [$(this).find('inputAddress2').text()];
 					xmlObj.inputCity 		= [$(this).find('inputCity').text()];
 					xmlObj.inputState 		= [$(this).find('inputState').text()];
 					xmlObj.inputZip			= [$(this).find('inputZip').text()];
 					xmlObj.inputRating 		= [$(this).find('inputRating').text()];
 					xmlObj.inputDate 		= [$(this).find('inputDate').text()];
-					xmlObj.inputArea 		= [$(this).find('inputArea').text()];
-					xmlObj.inputCheck 		= [$(this).find('inputCheck').text()];
+//					xmlObj.inputArea 		= [$(this).find('inputArea').text()];
+//					xmlObj.inputCheck 		= [$(this).find('inputCheck').text()];
 
-					//Write pebble to local storage
+					//write xml to localstorage
 					localStorage.setItem(i, JSON.stringify(xmlObj));
 				});
 				//get the list of data
@@ -62,22 +78,21 @@ var loadInfo = function(dataJson) {
 		})	
 	}
 
-};
+};//end data load
 
 //store the data into local storage
 	var storeTheData = function() {
 		//if no key, then it's brand new and we need a new key
-		var key;
-		//var id = Math.floor(Math.random() * 100000001);
-           if (pebbleItemKey) {
-			   key = pebbleItemKey;
+		var idKey;
+           if (pebbleKey) {
+			 //set the id to the existing key so it will not overwrite the data
+			   idKey = pebbleKey;
            } else {
-			//set the id to the existing key so it will not overwrite the data
-               id = Math.floor(Math.random() * 100000001);
-           }
+			 //set the id to a random key
+               idKey = Math.floor(Math.random() * 100000001);
+           };
 		//Gather up our form field values and store in an object
 		//Object properties contain an array with form label and input values
-//			getCheckBoxValue();           
 			var item = {};
 
            //Gather form field values and store in an object
@@ -85,116 +100,196 @@ var loadInfo = function(dataJson) {
 			item.type			= [$("#type").val()];
 			item.inputName		= [$("#inputName").val()];
 			item.inputAddress	= [$("#inputAddress").val()];
-			item.inputAddress2	= [$("#inputAddress2").val()];
+//			item.inputAddress2	= [$("#inputAddress2").val()];
 			item.inputCity		= [$("#inputCity").val()];
 			item.inputState		= [$("#inputState").val()];
 			item.inputZip		= [$("#inputZip").val()];
 			item.inputRating	= [$("#inputRating").val()];
 			item.inputDate		= [$("#inputDate").val()];
-			//item.inputHidden	= ["Hidden:", $("#inputHidden").val()];
-			item.inputArea		= [$("inputArea").val()];
-			item.inputCheck		= ["Favorite:", '.val()'];
+//			item.inputArea		= [$("#inputArea").val()];
+//			item.inputCheck		= ["Favorite:", '.val()'];
 		
 		//Save data into local storage. Use stringify to convert object into a string		
-		localStorage.setItem(id, JSON.stringify(item));
+		localStorage.setItem(idKey, JSON.stringify(item));
 
-		alert("Your location is saved! Add another!");
+		alert("Your location is saved.");
+		
+		//try adding this
 		$.mobile.changePage("#editItemPage",{
 			allowSamePageTransition: true,
 			transition: "slide"
 		});
-		
-	//Reset pebbleItemKey
-	pebbleItemKey = '';
 
-};
+	//reset key
+	pebbleKey = '';
 
+};//end data storage
 
-		var errMessage = $("#errorMessages");
 
 // validate the form	   
-		var validate = function(){
-			console.log("Validating the data form.");
+var validate = function() {
+	console.log("Validating the data form.");
 
-			var requiredEl = $('.required');
-			requiredEl.removeClass('error');
+	var requiredEl = $('.required');
+	requiredEl.removeClass('error');
 
+//get error messages
+	var messagesArray = [];
+	
+//define the elements we want to check
+	requiredEl.each(function(i){
+		if($(this).val() === "") {
+			switch(requiredEl[i].id){
+				case 'inputName':
+					$(this).parent().addClass('error');
+					messagesArray.push('Please enter a name.');
+					break;
+				case 'inputAddress':
+					$(this).parent().addClass('error');
+					messagesArray.push('Please enter an address.');
+					break;
+				case 'inputCity':
+					messagesArray.push('Please enter a city.');
+					break;
+				case 'inputState':
+					$(this).addClass('error');
+					messagesArray.push('Please enter a state.');
+					break;				    	
+				default:
+				
+				return false;
+			};			
+		} else {
+			switch(requiredEl[i].id){
+				case 'inputName':
+					$(this).parent().removeClass('error');
+					break;
+				case 'inputAddress':
+					$(this).parent().removeClass('error');
+					break;
+				case 'inputCity':
+					$(this).removeClass('error');
+					break;				    	
+				default:
+				
+				return false;
+			};			
 
-		//define the elements we want to check
-			var checkGroup = $("#type");
-			var checkName = $("#inputName");
-			var checkAddress = $("#inputAddress");
-			var checkCity = $("#inputCity");
-			var checkState = $("#inputState");
-		
-		//reset error messages
-			errMessage.html('');
-			checkGroup.css('border', '1px solid #cccccc');
-			checkName.css('border', '1px solid #cccccc');
-			checkAddress.css('border', '1px solid #cccccc');
-			checkCity.css('border', '1px solid #cccccc');
-			checkState.css('border', '1px solid #cccccc');
+		};					
+	});
+//
+//var checkGroup = $('#type');
+//	if( checkGroup.val() === "-- Choose a Type --") {
+//		checkGroup.parent().addClass('error');
+//		messagesArray.push('Please choose a group.');
+//	} else {
+//		checkGroup.parent().removeClass('error');
+//};	
 
-		//get error messages
-			var messagesArray = [];
+//	function validate(v){
+//		//define the elements we want to check
+//		var checkGroup = $("#dropdownSelect");
+//		var checkName = $("#inputName");
+//		var checkAddress = $("#inputAddress");
+//		var checkCity = $("#inputCity");
+//		var checkState = $("#inputState");
+//		
+//		//reset error messages
+//		errMessage.html('');
+//		checkGroup.css('border', '1px solid #cccccc');
+//		checkName.css('border', '1px solid #cccccc');
+//		checkAddress.css('border', '1px solid #cccccc');
+//		checkCity.css('border', '1px solid #cccccc');
+//		checkState.css('border', '1px solid #cccccc');
+//
+//		//get error messages
+//		var messagesArray = [];
+//		
+//		//group validation
+//		if(checkGroup.val() === "--Choose a Type--"){
+//			var checkGroupError = "Please choose a group."
+//			checkGroup.css('border', '1px solid red');
+//			messagesArray.push(checkGroupError);
+//		}
+//		//name validation
+//		if(checkName.val() === ""){
+//			var checkNameError = "Please enter a name."
+//			checkName.css('border', '1px solid red');
+//			messagesArray.push(checkNameError);
+//		}
+//		//address validation
+//		if(checkAddress.val() === ""){
+//			var checkAddressError = "Please enter an address."
+//			checkAddress.css('border', '1px solid red');
+//			messagesArray.push(checkAddressError);
+//		}
+//		//city validation
+//		if(checkCity.val() === ""){
+//			var checkCityError = "Please enter a city."
+//			checkCity.css('border', '1px solid red');
+//			messagesArray.push(checkCityError);
+//		}
+//		//state validation
+//		if(checkState.val() === ""){
+//			var checkStateError = "Please enter a state."
+//			checkState.css('border', '1px solid red');
+//			messagesArray.push(checkStateError);
+//		}
+//		
+//		//if there are errors, display them
+//		if(messagesArray.length >= 1){
+//			for(var i=0, j=messagesArray.length; i < j; i++){
+//				var txt = $("li");
+//				txt.html(messagesArray[i]);
+//				errMessage.append(txt);
+//			}
+//			v.preventDefault();
+//			return false;
+//		}else{
+//			//if no errors, save data. send key val from editData function
+//			//remember this key value was passed through editSubmit as a property
+//			
+//			storeTheData();
+//		}
+
 		
-		//group validation
-			if(checkGroup.val() === "--Choose a Type--"){
-				var checkGroupError = "Please choose a group."
-				$(this).parent().addClass('error');
-				checkGroup.css('border', '1px solid red');
-				messagesArray.push(checkGroupError);
-			}
-		//name validation
-			if(checkName.val() === ""){
-				var checkNameError = "Please enter a name."
-				checkName.css('border', '1px solid red');
-				messagesArray.push(checkNameError);
-			}
-		//address validation
-			if(checkAddress.val() === ""){
-				var checkAddressError = "Please enter an address."
-				checkAddress.css('border', '1px solid red');
-				messagesArray.push(checkAddressError);
-			}
-		//city validation
-			if(checkCity.val() === ""){
-				var checkCityError = "Please enter a city."
-				checkCity.css('border', '1px solid red');
-				messagesArray.push(checkCityError);
-			}
-		//state validation
-			if(checkState.val() === ""){
-				var checkStateError = "Please enter a state."
-				checkState.css('border', '1px solid red');
-				messagesArray.push(checkStateError);
-			}
+//	}
+	
+//show errors
+errMessage.empty();
+if(messagesArray.length != 0) {
+
+$.each(messagesArray, function(i) {
+	$('' + 	'<li>' + messagesArray[i] + '</li>').appendTo(errMessage);
+})
+errMessage.show();
+} else {
+//reset error messages
+errMessage.empty();
+errMessage.hide();
+//if no errors, save data. send key val from editData function
+storeTheData();
+};
+	//	
+//		//group validation
+//			if(checkGroup.val() === "--Choose a Type--"){
+//				var checkGroupError = "Please choose a group."
+//				$(this).parent().addClass('error');
+//				checkGroup.css('border', '1px solid red');
+//				messagesArray.push(checkGroupError);
+//			}
+//		}else{
+//			//if no errors, save data. send key val from editData function
+//			//remember this key value was passed through editSubmit as a property
+//			storeTheData(this.key);
+//			}
 		
-		//if there are errors, display them
-			if(messagesArray.length >= 1){
-				for(var i=0, j=messagesArray.length; i < j; i++){
-					var txt = $("li");
-					txt.html(messagesArray[i]);
-					errMessage.append(txt);
-			}
-			return false;
-		}else{
-			//if no errors, save data. send key val from editData function
-			//remember this key value was passed through editSubmit as a property
-			storeTheData(this.key);
-			}
-		
-		};
+};
 		
 		
 var getData = function() {
-    // Get localStorage and add to button click
-//    $("#getStorage").on('click', function(){
-		var mainList = $('#mainEditList');
-
-//        $("#mainSearch").empty();
 		
-		//If no data, pre-populate with JSON
+		//look for data, and then load JSON if empty
 		if (!localStorage.length) {
 			var verify = confirm('No Pebbles have been saved. Load sample JSON data by choosing OK, or select cancel to load XML.')
 			if(verify) {
@@ -202,281 +297,185 @@ var getData = function() {
 			} else {
 				loadInfo('xml');
 			};			
-		};
-
-//this is what i tried
-	
-//        for (var i= 0, j=localStorage.length; i<j ; i++){
-//            var key = localStorage.key(i);
-//            var item = JSON.parse(localStorage.getItem(key));
-//            console.log(item);
-//            var makeSubList = $("<li></li>");
-//            var makeSubLi = $( "<h3>"+item.type[0]+"</h3>"+
-//                "<p><strong>"+item.inputName[0]+"</strong></p>"+
-//                "<p>"+item.inputRating[0]+"</p>" +
-//                "<p>"+item.inputArea[0]+"</p>" );
-//            var makeLink = $("<a href='#newItem' id='"+key+"'>Edit</a>");
-//            makeLink.on('click', function(){
-//                console.log("This is my key: "+this.id);
-//				//Edit Item here this.id is key
-//				//this.attr('id');
-//				editDataItem(this.id);
-//				//get item populate form
-//				//change from save to edit item in form				
-//            });
-//            makeLink.html(makeSubLi);
-//            makeSubList.append(makeLink).appendTo("#mainSearch");
-//        }; // end for loop
-//        $("#mainSearch").listview('refresh');	
+		};		
 		
-		
-		
-		
-		
-	//if pebbleCategory is defined
-	if(pebbleCategory) {
-		$('#editItemPage h2').html('Viewing ' + pebbleCategory + 's');	
+//show category when selected		
+	if(pebbleCat) {
+		$('#editItemPage h2').html('Viewing ' + pebbleCat + 's');	
 	};
 	
-	//Loop through all localstorage items and draw to stage
 	for(var i = 0, j=localStorage.length; i<j; i++ ){
-		//Define key per loopIndex
 		var localObjKey = localStorage.key(i);
-		//Convert localStorage item back to object
 		var localObj = JSON.parse(localStorage.getItem(localObjKey));
 		
-		if(pebbleCategory) {
-			if(pebbleCategory === localObj.type[0]) {
+		if(pebbleCat) {
+			if(pebbleCat === localObj.type[0]) {
 				$('' + 
-					'<li>' +
-						'<a href="#editItemPage" data-key="' + localObjKey + '" data-transition="slide" class="itemLink">' +
-							'<img src="images/' + localObj.type[0] + '.png" class="ul-li-icon">' +
+					'<li>' + '<a href="#newItem" class="" data-key="' + localObjKey + '" data-transition="slide">' +
+						'<img src="img/' + localObj.type[0] + '.png" class="ul-li-icon">' +
 							'<h3>' + localObj.inputName[0] + '</h3>' +
-							'<p>' + localObj.inputArea[0] + '</p>' +
 						'</a>' +
-						'<a href="#newItem" data-key="' + localObjKey + '" data-transition="slide">Edit</a>' +
 					'</li>'
 				).appendTo(mainList);					
 			};
 		} else {
 			$('' + 
-				'<li>' +
-					'<a href="#editItemPage" data-key="' + localObjKey + '" data-transition="slide" class="itemLink">' +
-						'<img src="images/' + localObj.type[0] + '.png" class="ul-li-icon">' +
-						'<h3>' + localObj.inputName[0] + '</h3>' +
-						'<p>' + localObj.inputArea[0] + '</p>' +
-					'</a>' +
-					'<a href="#newItem" data-key="' + localObjKey + '" data-transition="slide">Edit</a>' +
-				'</li>'
+					'<li>' + '<a href="#newItem" class="" data-key="' + localObjKey + '" data-transition="slide">' +
+						'<img src="img/' + localObj.type[0] + '.png" class="ul-li-icon">' +
+							'<h3>' + localObj.inputName[0] + '</h3>' +
+						'</a>' +
+					'</li>'
 			).appendTo(mainList);	
 		};
 	};
 
-	//Bind Edit Functionality
+	//bind edit 
 	$('a[data-key]').on('click', function() {
-		pebbleItemKey = $(this).attr('data-key');
+		pebbleKey = $(this).attr('data-key');
 	})
 
-	//Reset pebbleCategory
-	pebbleCategory = '';
+	//reset pebbleCat
+	pebbleCat = '';
 
-	//Refresh JQM list component
-//	mainList.listview('refresh');	
-		
-			
-		
-//    });  // end storage.on
+	//refresh the list
+	mainList.listview('refresh');	
 	
-};
+}; // end storage get
 		
 
 // delete single item from local storage
-		var	deleteItem = function (){
-			var ask = confirm("Are you sure you want to delete this pebble?");	
-			if(ask){
-				localStorage.removeItem(pebbleItemKey);
-				alert("Pebble was deleted.");
-				pebbleItemKey = '';
-				window.location.reload();
-			$.mobile.changePage("#editItemPage",{
-			reverse: true,
-			transition: "slide"
-		});	
-	
-			}else{
-				alert("Pebble was not deleted.");
-			}
-		};		
+var	deleteItem = function() {
+	var ask = confirm("Are you sure you want to delete this pebble?");	
+	if(ask){
+		//it was pebbleKey was this.key
+		localStorage.removeItem(pebbleKey);
+		alert("Pebble with id of " + pebbleKey + " was deleted.");
+		pebbleKey = '';
+	$.mobile.changePage("#editItemPage",{
+	reverse: true,
+	transition: "none"
+	});	
+
+
+	}else{
+		alert("Pebble was not deleted.");
+	}
+};	// end delete
 
 
 //edit the items
-var editDataItem = function(keyArg){
+var editDataItem = function(){
 	//Grab data from local storage
+	var keyArg = pebbleKey;
 	var value = localStorage.getItem(keyArg);
 	var item = JSON.parse(value);
 	
-	//show submit button
-	var changeSubmit = function (){
-		$('#submit').parent().hide();
-		$('#submit2').parent().show();
-	}
-	changeSubmit();
-//	$('#submit2').text("Edit Pebble");
-
-	
 	console.log(item.inputName[0]);
-
 	
 	//Show the form
 //	toggleTheControls("off");
 	
 	//populate the form fields with current localStorage values
-	$("#type").val(item.type[0]).trigger('refresh');
+	$("#type").val(item.type[0]).selectmenu("refresh");
 	$("#inputName").val(item.inputName[0]).trigger("create");
 	$("#inputAddress").val(item.inputAddress[0]).trigger("create");
-	$("#inputAddress2").val(item.inputAddress2[0]).trigger("create");
+//	$("#inputAddress2").val(item.inputAddress2[0]).trigger("create");
 	$("#inputCity").val(item.inputCity[0]).trigger("create");
 	$("#inputState").val(item.inputState[0]).trigger("create");
 	$("#inputZip").val(item.inputZip[0]).trigger("create");
-	$("#inputRating").val(item.inputRating[0]);
+	$("#inputRating").val(item.inputRating[0]).slider("refresh");
 	$("#inputDate").val(item.inputDate[0]).trigger("create");
-	$("#inputArea").val(item.inputArea[0]).trigger("create");
-	if(item.inputCheck[0] == "Yes"){
-		$("#addfav").attr("checked", "checked");
-	}
+//	$("#inputArea").val(item.inputArea[0]).trigger("create");
+//	if(item.inputCheck[0] == "Yes"){
+//		$("#addfav").attr("checked", "checked");
+//	}
 	
 	var editSubmit = $("#submit");
 	
-	$('#submitForm').off('click');
-	
+	editSubmit.off('click');	
 	//save key value for reuse
-	editSubmit.on("click", validate);
-	editSubmit.key = this.key;
+	editSubmit.on('click', function(){
+	pebbleKey = keyArg;
+	validate();
+	});
 	
-}		
+};// end edit item		
 
 
 // clear local storage
-		var clearLocalStorage = function(){
-			if(localStorage.length === 0){
-				alert("There is no data to clear.")
-			}else{
-				localStorage.clear();
-				alert("All pebbles are deleted!");
-				window.location.reload();
-				return false;
-			}
-		};	
+var clearLocalStorage = function(){
+	if(localStorage.length === 0){
+		alert("There is no data to clear.")
+	}else{
+		localStorage.clear();
+		alert("All pebbles are deleted!");
+		$.mobile.changePage("#indexPage",{
+			reverse: true,
+			transition: "none"
+		});	 
+	};
+};// end storage clear	
 
 
 //clear form fields
-		$.fn.clearForm = function() {
-			return this.each(function() {
-			var type = this.type, tag = this.tagName.toLowerCase();
-				if (tag == 'form')
-			return $(':input',this).clearForm();
-				if (type == 'text' || type == 'password' || tag == 'textarea')
-			this.value = '';
-				else if (type == 'checkbox' || type == 'radio')
-			this.checked = false;
-				else if (tag == 'select')
-			this.selectedIndex = -1;
-			});
-		};
+$.fn.clearForm = function() {
+	return this.each(function() {
+	var type = this.type, tag = this.tagName.toLowerCase();
+		if (tag == 'form')
+	return $(':input',this).clearForm();
+		if (type == 'text' || type == 'password' || tag == 'textarea')
+	this.value = '';
+		else if (type == 'checkbox' || type == 'radio')
+	this.checked = false;
+		else if (tag == 'select')
+	this.selectedIndex = -1;
+	});
+	$('.error').removeClass('error');
+	clearErrors();
+};// end clear form
+	
 		//reset the form
 		$('#reset').clearForm();
 
-		
-//		//Get image for right category
-//		function getCatImage(categoryName, makeSubList){
-//			var imageNewLi = $("li");
-//			makeSubList.append(imageNewLi);
-//			var newCatImg = $("img");
-//			var setSrc = newCatImg.attr("src", "img/"+ categoryName + ".png");
-//			imageNewLi.append(newCatImg);
-//		}
-//	
-//			
-//		//Make Navigation Links for Items
-//		//create edit and delete links
-//		function makeNavLinksLi(key, navLinksLi){
-//			//add edit single item link
-//			var editDataLink = $("a");
-//			editDataLink.attr({"href": "#", "class": "btn btn-info"});
-//			editDataLink.key = key;
-//			var editDataText = "Edit Pebble";
-//			editDataLink.on("click", editDataItem);
-//			editDataLink.html(editDataText);
-//			navLinksLi.append(editDataLink);
-//			
-//			//add line break
-//			//var breakReturnTag = document.createElement("br");
-//			//navLinksLi.appendChild(breakReturnTag);
-//			
-//			
-//			//add delete single item link
-//			var deleteDataLink = $("a");
-//			deleteDataLink.attr({"href": "#", "class": "btn btn-danger"});
-//			deleteDataLink.key = key;
-//			var deleteDataText = "Delete Pebble";
-//			deleteDataLink.on("click", deleteDataItem);
-//			deleteDataLink.html(deleteDataText);
-//			navLinksLi.append(deleteDataLink);
-//		
-//		}
-//		
-//		
-//		itemsDiv = $("#items");
-//		itemsDiv.parent().children(itemsDiv);
-		
-		
 
 
-		
-//		var parsePebbleForm = function(data){};
-//		
-//		var pebbleForm = $('#pebbleForm');
-//			pebbleForm.validate({
-//			invalidHandler: function(form, validator) {
-//		},
-//		submitHandler: function() {
-//		var data = pebbleForm.serializeArray();
-//			parsePebbleForm(data);
-//			storeTheData(data);
-//			}
-//		});
 
-
+//refresh any page
+var pageRefresh = function() {
+  $.mobile.changePage(
+	window.location.href,
+	{
+	  allowSamePageTransition : true,
+	  transition              : 'none',
+	  showLoadMsg             : false,
+	  reloadPage              : true
+	}
+  );
+};//end page refresh
+	
 
 $('#home').on('pagebeforeshow', function(event) {
 	console.log("Homepage is loaded.");
-	    // empty the main list
-//    $("#mainSearch").empty();
-//	
-//    // add custom html
-//    $('<li data-role="list-divider">Friday, October 8, 2010 <span class="ui-li-count">3</span></li>' +
-//        '<li><a href="index.html"><h3>Stephen Weber</h3>' +
-//        '<p><strong>You have been invited to a meeting at Filament Group in Boston, MA</strong></p>' +
-//        '<p>Hey Stephen, we have got a meeting with the jQuery team.</p>' +
-//        '<p class="ui-li-aside"><strong>6:24</strong>PM</p></a></li>').appendTo("#mainSearch");
-//
-//	getData();
-//
-//    // refresh the listview
-//    $("#mainSearch").listview('refresh');
 
 	$('.category').on('click', function() {
-		pebbleCategory = $(this).attr('data-category');
+		pebbleCat = $(this).attr('data-category');
 	});	
 	
-	$('#editItemPage h2').html('Viewing All Pebbles');
-		
+	$('.editItemPage').on('click', function() {
+		mainList.empty();
+	});	
+			
+});
+
+$('#home').on('pagehide',function(event) {
+	$('.category').off('click');
 });
 
 
 $('#editItemPage').on('pagebeforeshow',function(event) {
 	console.log("View list of pebbles.");
-	$('#mainEditList').empty();
+	$('#editItemPage h2').html('Viewing All Pebbles');
+	mainList.empty();
 	getData();
 	
 	// bind clear storage to button click
@@ -484,25 +483,38 @@ $('#editItemPage').on('pagebeforeshow',function(event) {
 		clearLocalStorage();
 	});
 	
+	
 });
+
+$('#editItemPage').on('pagehide',function(event) {
+	$('a[data-key]').off('click');
+	$('#clearStorage').off('click');		
+});
+
 
 
 $('#newItem').on('pagebeforeshow', function(event) {
 	console.log("Add a Pebble.");
 	
-	$('#submit').val('Save').button('refresh');	
 
 	$('#submit').on('click', function() { validate() });
 	$('#delete').on('click', function() { deleteItem() });
 	
 	//Populate form to edit item data
-	if(pebbleItemKey) {
+	if(pebbleKey) {
 		editDataItem();
 	}; 
 });
 
 
+$('#newItem').on('pagehide',function(event) {
 
+	$('#submit').off('click');
+	$('#delete').off('click');
+	
+	pebbleForm:reset;
+	clearErrors();
+});
 
 
 
