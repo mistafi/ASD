@@ -1,7 +1,10 @@
 {
   "env": {
-    "default": {
+    "local": {
       "db": "http://mistafi:supersecret1@127.0.0.1:5984/asdpebbly"
-    }
+    },
+    "cloudant": {
+    	"db": "https://oughtyiesindescalwasittl:moUPQ38ckTEtbUDM2awKSCPt@mistafi.cloudant.com/asdpebbly"  
+  	}
   }
-}
+} 

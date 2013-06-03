@@ -29,13 +29,25 @@ var loadInfo = function(dataLoad) {
 			  },
 			success: function(data) {
 				console.log(data)
-				var jsonObj = data.pebbles;			
-				//save JSON to localstorage
-			    for ( var n in jsonObj) {
-			        localStorage.setItem(n, JSON.stringify(jsonObj[n]));
-			    };
+				$.each(data.rows, function(index, pebble){
+				var type = pebble.value.type;
+				var name = pebble.value.inputName;
+				var address = pebble.value.inputAddress;
+				var city = pebble.value.inputCity;
+				var state = pebble.value.inputState;
+				var zip = pebble.value.inputZip;
+				var rating = pebble.value.inputRating;
+				var date = pebble.value.inputDate;
+					$('#mainEditList').append(
+						$('<li>').append(
+							$('<a>').attr("href", "#")
+								.text(name)
+						)
+					);
+				});
+				$('#mainEditList').listview('refresh');
 				//get the list of data
-				getData();
+				//getData();
 			}
 		});		
 	} 
@@ -252,9 +264,13 @@ storeTheData();
 var getData = function() {
 		
 		//look for data, and then load JSON if empty
-		if(localStorage.length === 0) {
-			alert("There is no data in Local Storage so example data was added.");
-			loadInfo('json');	
+		if (!localStorage.length) {
+			var verify = confirm('No Pebbles have been saved. Load sample JSON data by choosing OK.')
+			if(verify) {
+				loadInfo('json');	
+			} else {
+				alert("No data has been loaded.");
+			};			
 		};	
 		
 		
@@ -268,11 +284,11 @@ var getData = function() {
 		var localObj = JSON.parse(localStorage.getItem(localObjKey));
 		
 		if(pebbleCat) {
-			if(pebbleCat === localObj.type[0]) {
+			if(pebbleCat === type) {
 				$('' + 
 					'<li>' + '<a href="#newItem" class="" data-key="' + localObjKey + '" data-transition="slide">' +
-						'<img src="' + localObj.type[0] + '.png" class="ul-li-icon">' +
-							'<h3>' + localObj.inputName[0] + '</h3>' +
+						'<img src="' + type + '.png" class="ul-li-icon">' +
+							'<h3>' + name + '</h3>' +
 						'</a>' +
 					'</li>'
 				).appendTo(mainList);					
@@ -280,8 +296,8 @@ var getData = function() {
 		} else {
 			$('' + 
 					'<li>' + '<a href="#newItem" class="" data-key="' + localObjKey + '" data-transition="slide">' +
-						'<img src="' + localObj.type[0] + '.png" class="ul-li-icon">' +
-							'<h3>' + localObj.inputName[0] + '</h3>' +
+						'<img src="' + type + '.png" class="ul-li-icon">' +
+							'<h3>' + 	inputName + '</h3>' +
 						'</a>' +
 					'</li>'
 			).appendTo(mainList);	
@@ -329,23 +345,23 @@ var editDataItem = function(){
 	var value = localStorage.getItem(keyArg);
 	var item = JSON.parse(value);
 	
-	console.log(item.inputName[0]);
+	console.log(item.inputName);
 	
 	//Show the form
 //	toggleTheControls("off");
 	
 	//populate the form fields with current localStorage values
-	$("#type").val(item.type[0]).selectmenu("refresh");
-	$("#inputName").val(item.inputName[0]).trigger("create");
-	$("#inputAddress").val(item.inputAddress[0]).trigger("create");
-//	$("#inputAddress2").val(item.inputAddress2[0]).trigger("create");
-	$("#inputCity").val(item.inputCity[0]).trigger("create");
-	$("#inputState").val(item.inputState[0]).trigger("create");
-	$("#inputZip").val(item.inputZip[0]).trigger("create");
-	$("#inputRating").val(item.inputRating[0]).slider("refresh");
-	$("#inputDate").val(item.inputDate[0]).trigger("create");
-//	$("#inputArea").val(item.inputArea[0]).trigger("create");
-//	if(item.inputCheck[0] == "Yes"){
+	$("#type").val(item.type).selectmenu("refresh");
+	$("#inputName").val(item.inputName).trigger("create");
+	$("#inputAddress").val(item.inputAddress).trigger("create");
+//	$("#inputAddress2").val(item.inputAddress2).trigger("create");
+	$("#inputCity").val(item.inputCity).trigger("create");
+	$("#inputState").val(item.inputState).trigger("create");
+	$("#inputZip").val(item.inputZip).trigger("create");
+	$("#inputRating").val(item.inputRating).slider("refresh");
+	$("#inputDate").val(item.inputDate).trigger("create");
+//	$("#inputArea").val(item.inputArea).trigger("create");
+//	if(item.inputCheck == "Yes"){
 //		$("#addfav").attr("checked", "checked");
 //	}
 	
