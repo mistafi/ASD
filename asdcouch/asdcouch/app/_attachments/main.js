@@ -14,12 +14,12 @@ var clearErrors = function() {
 
 
 
-//load data in ajax and xml
+//load data in ajax 
 var loadInfo = function(dataLoad) {
 	if(dataLoad === 'json') {
 		console.log('Loading JSON file');
 		$.ajax({
-			url: "pebbles.json",
+			url: "/",
 			type: "GET",
 			dataType: "json",
 			statusCode: {
@@ -38,45 +38,7 @@ var loadInfo = function(dataLoad) {
 				getData();
 			}
 		})		
-	} else {
-		console.log('Loading xml document');
-		$.ajax({
-			url: "pebbles.xml",
-			type: "GET",
-			dataType: "xml",
-			statusCode: {
-				404: function() {
-				  alert("Page not found.");
-				}
-			 	},
-			success: function(data) {
-				console.log(data)
-				var xmlData = $(data),
-					xmlPebbles = xmlData.find('pebble'),
-					xmlObj = {}
-				
-				xmlPebbles.each(function(i) {
-					xmlObj = {};
-					xmlObj.type 			= [$(this).find('type').text()];
-					xmlObj.inputName		= [$(this).find('inputName').text()];
-					xmlObj.inputAddress 	= [$(this).find('inputAddress').text()];
-//					xmlObj.inputAddress2 	= [$(this).find('inputAddress2').text()];
-					xmlObj.inputCity 		= [$(this).find('inputCity').text()];
-					xmlObj.inputState 		= [$(this).find('inputState').text()];
-					xmlObj.inputZip			= [$(this).find('inputZip').text()];
-					xmlObj.inputRating 		= [$(this).find('inputRating').text()];
-					xmlObj.inputDate 		= [$(this).find('inputDate').text()];
-//					xmlObj.inputArea 		= [$(this).find('inputArea').text()];
-//					xmlObj.inputCheck 		= [$(this).find('inputCheck').text()];
-
-					//write xml to localstorage
-					localStorage.setItem(i, JSON.stringify(xmlObj));
-				});
-				//get the list of data
-				getData();	
-			}
-		})	
-	}
+	} 
 
 };//end data load
 
@@ -291,12 +253,8 @@ var getData = function() {
 		
 		//look for data, and then load JSON if empty
 		if (!localStorage.length) {
-			var verify = confirm('No Pebbles have been saved. Load sample JSON data by choosing OK, or select cancel to load XML.')
-			if(verify) {
+			var verify = confirm('No Pebbles have been saved. Load sample JSON data.')
 				loadInfo('json');	
-			} else {
-				loadInfo('xml');
-			};			
 		};		
 		
 //show category when selected		
