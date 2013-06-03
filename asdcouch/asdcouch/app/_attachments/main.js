@@ -19,7 +19,7 @@ var loadInfo = function(dataLoad) {
 	if(dataLoad === 'json') {
 		console.log('Loading JSON file');
 		$.ajax({
-			url: "/",
+			url: "_view/pebbles",
 			type: "GET",
 			dataType: "json",
 			statusCode: {
@@ -37,7 +37,7 @@ var loadInfo = function(dataLoad) {
 				//get the list of data
 				getData();
 			}
-		})		
+		});		
 	} 
 
 };//end data load
@@ -252,10 +252,11 @@ storeTheData();
 var getData = function() {
 		
 		//look for data, and then load JSON if empty
-		if (!localStorage.length) {
-			var verify = confirm('No Pebbles have been saved. Load sample JSON data.')
-				loadInfo('json');	
-		};		
+		if(localStorage.length === 0) {
+			alert("There is no data in Local Storage so example data was added.");
+			loadInfo('json');	
+		};	
+		
 		
 //show category when selected		
 	if(pebbleCat) {
