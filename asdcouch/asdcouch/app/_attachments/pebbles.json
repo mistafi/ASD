@@ -5,10 +5,10 @@
 
 //$("#home").on("pagebeforecreate", function () {
 //    localStorage.clear();
-//   var jsonData =
-// 
+   var jsonData =
+ 
 { 
-		"pebbleItems" : [
+		"pebbles" : [
             		{
 					"type": ["Restaurant"],
 					"inputName": ["Johnny's Pizza"],	
@@ -272,9 +272,9 @@
 		]
     }
 	
-//;
-//
-//    $.each(jsonData.pebbleItems, function (index, singleItem) {
+;
+
+//    $.each(jsonData.pebbles, function (index, singleItem) {
 //        var _id = Math.floor(Math.random() * 100001);
 //        var toStore = JSON.stringify(singleItem);
 //        localStorage.setItem(_id, toStore);
