@@ -172,7 +172,7 @@
                  <form action="#" method="post" class="form-horizontal" id="pebbleForm" data-ajax=”false”>
                   <div class="control-group" data-role="fieldcontain">
 <!--                    <label id="labelSelect" class="control-label" for="dropdownSelect">Type*</label>
--->                    	<select id="type" data-native-menu="false" data-theme="a" class='required'>
+-->                    	<select id="type" data-native-menu="false" data-theme="a" class="required">
                         	<option value="--Choose a Type--">--Choose a Type--</option>
                         	<option value="Restaurant">Restaurant</option>
                         	<option value="Gas Station">Gas Station</option>
@@ -237,8 +237,8 @@
                         </fieldset>
                     </div>      -->              
                     
-                          	<input type="submit" id="submit" class="btn btn-large btn-block btn-success ui-block-b" value="Add Pebble" data-theme="b">
-                          	<!--<input type="submit" id="submit2" class="btn btn-large btn-block btn-success ui-block-b" value="Edit Pebble" data-theme="b">-->
+                          	<input type="submit" id="submit" class="btn btn-large btn-block btn-success ui-block-b" value="Save Pebble" data-theme="b">
+<!--                          	<input type="submit" id="update" class="btn btn-large btn-block btn-success ui-block-b" value="Update" data-theme="b">-->
                           	<input type="reset" id="reset" class="btn btn-large btn-block btn-info" value="Reset" data-theme="a">
                             <input type="button" id="delete" class="btn btn-large btn-block btn-info" value="Delete" data-theme="c"/>
 
@@ -268,7 +268,7 @@
             <div data-role="content" id="editFormContainer">
                 <h2>Viewing All Pebbles</h2>
 
-				<ul id="mainEditList" data-inset="true" data-theme="a" class="unstyled well">
+				<ul id="mainEditList" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Filter Pebbles..." data-theme="a" class="unstyled">
 
 				</ul>
                 
