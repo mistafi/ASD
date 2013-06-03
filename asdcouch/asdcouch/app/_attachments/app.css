@@ -32,7 +32,7 @@ Term 1304
 
 .ui-body-a, .ui-overlay-a {
 	background: #b7ad70;
-	background-image: url("images/pebbly_bg.png");
+	background-image: url("pebbly_bg.png");
 	background-repeat:repeat-x;	
 }
 
@@ -109,7 +109,7 @@ label.error {
 }
 
 .ui-icon-restaurant-icon {
-		background-image: url("img/Restaurant.png");
+		background-image: url("Restaurant.png");
 		background-size: 18px 18px;
 }
 .ui-icon-gas-icon {
