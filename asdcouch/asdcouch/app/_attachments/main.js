@@ -15,44 +15,44 @@ var clearErrors = function() {
 
 
 //load data in ajax 
-var loadInfo = function(dataLoad) {
-	if(dataLoad === 'json') {
-		console.log('Loading JSON file');
-		$.ajax({
-			url: "_view/pebbles",
-			type: "GET",
-			dataType: "json",
-			statusCode: {
-				404: function() {
-				  alert("Page not found.");
-				}
-			  },
-			success: function(data) {
-				console.log(data)
-				$.each(data.rows, function(index, pebble){
-				var type = pebble.value.type;
-				var name = pebble.value.inputName;
-				var address = pebble.value.inputAddress;
-				var city = pebble.value.inputCity;
-				var state = pebble.value.inputState;
-				var zip = pebble.value.inputZip;
-				var rating = pebble.value.inputRating;
-				var date = pebble.value.inputDate;
-					$('#mainEditList').append(
-						$('<li>').append(
-							$('<a>').attr("href", "#")
-								.text(name)
-						)
-					);
-				});
-				$('#mainEditList').listview('refresh');
+//var loadInfo = function(dataLoad) {
+//	if(dataLoad === 'json') {
+//		console.log('Loading JSON file');
+//		$.ajax({
+//			url: "_view/pebbles",
+//			type: "GET",
+//			dataType: "json",
+//			statusCode: {
+//				404: function() {
+	//			  alert("Page not found.");
+	//			}
+	//		  },
+	//		success: function(data) {
+	//			console.log(data)
+	//			$.each(data.rows, function(index, pebble){
+	//			var type = pebble.value.type;
+	//			var name = pebble.value.inputName;
+	//			var address = pebble.value.inputAddress;
+	//			var city = pebble.value.inputCity;
+	//			var state = pebble.value.inputState;
+	//			var zip = pebble.value.inputZip;
+	//			var rating = pebble.value.inputRating;
+	//			var date = pebble.value.inputDate;
+	//				$('#mainEditList').append(
+	//					$('<li>').append(
+	//						$('<a>').attr("href", "#")
+	//							.text(name)
+	//					)
+	//				);
+	//			});
+	//			$('#mainEditList').listview('refresh');
 				//get the list of data
 				//getData();
-			}
-		});		
-	} 
+	//		}
+	//	});		
+//	} 
 
-};//end data load
+//};//end data load
 
 //store the data into local storage
 	var storeTheData = function() {
@@ -431,6 +431,12 @@ var pageRefresh = function() {
 
 $('#home').on('pagebeforeshow', function(event) {
 	console.log("Homepage is loaded.");
+	
+	$.couch.db("asdpebbly").view("pebbly/pebbles", {
+		success: function(data) {
+			console.log(data);
+		}
+	});
 
 	$('.category').on('click', function() {
 		pebbleCat = $(this).attr('data-category');
@@ -451,13 +457,34 @@ $('#editItemPage').on('pagebeforeshow',function(event) {
 	console.log("View list of pebbles.");
 	$('#editItemPage h2').html('Viewing All Pebbles');
 	mainList.empty();
-	getData();
+	
+	$.couch.db("asdpebbly").view("pebbly/pebbles", {
+		success: function(data) {
+			console.log(data);
+			$.each(data.rows, function(index, pebble){
+				var type = pebble.value.type;
+				var name = pebble.value.inputName;
+				var address = pebble.value.inputAddress;
+				var city = pebble.value.inputCity;
+				var state = pebble.value.inputState;
+				var zip = pebble.value.inputZip;
+				var rating = pebble.value.inputRating;
+				var date = pebble.value.inputDate;
+					$('#mainEditList').append(
+						$('<li>').append(
+							$('<a>').attr("href", "pebble.html?pebbles=" + type)
+								.text(name)
+					)
+				);
+			});
+			$('#mainEditList').listview('refresh');
+		}
+	});
 	
 	// bind clear storage to button click
 	$('#clearStorage').on('click', function() {
 		clearLocalStorage();
 	});
-	
 	
 });
 
@@ -466,6 +493,24 @@ $('#editItemPage').on('pagehide',function(event) {
 	$('#clearStorage').off('click');		
 });
 
+var urlVars = function() {
+	var urlData = $($.mobile.activePage).data("url");	
+	var urlParts = urlData.split('?');	
+	var urlPairs = urlParts[1].split('&');
+	var urlValues = {};
+	for (var pair in urlPairs) {
+		var keyValue = urlPairs[pair].split('=');
+		var key = decodeURIComponent(keyValue[0]);
+		var value = decodeURIComponent(keyValue[1]);
+		urlValues[key] = value;
+	}
+	return urlValues;
+};
+
+$('#pebblePage').on('pagebeforeshow',function(event) {
+	var pebbles = urlVars()["pebbles"];
+	console.log(pebbles);
+});
 
 
 $('#newItem').on('pagebeforeshow', function(event) {
