@@ -460,7 +460,6 @@ $('#editItemPage').on('pagebeforeshow',function(event) {
 	
 	$.couch.db("asdpebbly").view("pebbly/pebbles", {
 		success: function(data) {
-			console.log(data);
 			$.each(data.rows, function(index, pebble){
 				var type = pebble.value.type;
 				var name = pebble.value.inputName;
@@ -481,16 +480,10 @@ $('#editItemPage').on('pagebeforeshow',function(event) {
 		}
 	});
 	
-	// bind clear storage to button click
-	$('#clearStorage').on('click', function() {
-		clearLocalStorage();
-	});
-	
 });
 
 $('#editItemPage').on('pagehide',function(event) {
 	$('a[data-key]').off('click');
-	$('#clearStorage').off('click');		
 });
 
 var urlVars = function() {
@@ -507,9 +500,16 @@ var urlVars = function() {
 	return urlValues;
 };
 
-$('#pebblePage').on('pagebeforeshow',function(event) {
-	var pebbles = urlVars()["pebbles"];
-	console.log(pebbles);
+$('#pebblePage').on('pageinit', function(event) {
+	var pebbleType = urlVars()["type"];
+	console.log(data);
+	$.couch.db("asdpebbly").view("pebbly/pebbles", {
+		key: "pebble:" + inputName 
+			//$('#pebbleItem').append(
+			//	$('<li>').append(
+			//		$('<h3>').text(name)
+			//)
+	});
 });
 
 
