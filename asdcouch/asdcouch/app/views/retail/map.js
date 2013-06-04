@@ -1,5 +1,5 @@
 function (doc) {
-	if (doc.type === "Restaurant") {
+	if (doc.type === "Retail Store") {
 		emit(doc.type, {
 			"type":doc.type,
 			"inputName":doc.inputName,
