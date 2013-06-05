@@ -5,7 +5,7 @@
 
 //$("#home").on("pagebeforecreate", function () {
 //    localStorage.clear();
-   var jsonData =
+//   var jsonData =
  
 { 
 		"pebbles" : [
@@ -272,7 +272,7 @@
 		]
     }
 	
-;
+//;
 
 //    $.each(jsonData.pebbles, function (index, singleItem) {
 //        var _id = Math.floor(Math.random() * 100001);
