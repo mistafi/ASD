@@ -35,7 +35,11 @@ var loadInfo = function(dataLoad) {
 			   //    localStorage.setItem(n, JSON.stringify(jsonObj[n]));
 			   //};
 			   
+<<<<<<< HEAD
 			   	$.each(data.pebbles, function (index, singleItem) {
+=======
+			   	$.each(jsonData.pebbles, function (index, singleItem) {
+>>>>>>> trying to update json
 				        var _id = Math.floor(Math.random() * 100001);
 					var toStore = JSON.stringify(singleItem);
 					localStorage.setItem(_id, toStore);
