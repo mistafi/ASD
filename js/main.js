@@ -31,9 +31,16 @@ var loadInfo = function(dataLoad) {
 				console.log(data)
 				var jsonObj = data.pebbles;			
 				//save JSON to localstorage
-			    for ( var n in jsonObj) {
-			        localStorage.setItem(n, JSON.stringify(jsonObj[n]));
-			    };
+			   // for ( var n in jsonObj) {
+			   //    localStorage.setItem(n, JSON.stringify(jsonObj[n]));
+			   //};
+			   
+			   	$.each(jsonData.pebbles, function (index, singleItem) {
+				        var _id = Math.floor(Math.random() * 100001);
+					var toStore = JSON.stringify(singleItem);
+					localStorage.setItem(_id, toStore);
+					onsole.log("Saved item " + index + " to storage with _id = " + _id);
+				});
 				//get the list of data
 				getData();
 			}
