@@ -15,8 +15,8 @@ var clearErrors = function() {
 
 
 //load data in ajax and xml
-var loadInfo = function(dataLoad) {
-	if(dataLoad === 'json') {
+var loadJSON = function(dataJson) {
+//if(dataLoad === 'json') {
 		console.log('Loading JSON file');
 		$.ajax({
 			url: "js/pebbles.json",
@@ -27,14 +27,19 @@ var loadInfo = function(dataLoad) {
 				  alert("Page not found.");
 				}
 			  },
-			success: function(data) {
-				console.log(data)
-				var jsonObj = data.pebbles;			
+			success: function() {
+				console.log(jsonData);
+				//var jsonObj = data.pebbles;			
 				//save JSON to localstorage
-			   // for ( var n in jsonObj) {
-			   //    localStorage.setItem(n, JSON.stringify(jsonObj[n]));
-			   //};
+			    for ( var n in jsonData) {
+					var id = Math.floor(Math.random()*100000001);
+			    	localStorage.setItem(id, JSON.stringify(jsonData[n]));
+			   	};
+				console.log('finally made it');
+
+				
 			   
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 			   	$.each(data.pebbles, function (index, singleItem) {
@@ -49,11 +54,21 @@ var loadInfo = function(dataLoad) {
 					localStorage.setItem(_id, toStore);
 					onsole.log("Saved item " + index + " to storage with _id = " + _id);
 				});
+=======
+//			   	$.each(data.pebbles, function (index, singleItem) {
+//				        var _id = Math.floor(Math.random() * 100001);
+//					var toStore = JSON.stringify(singleItem);
+//					localStorage.setItem(_id, toStore);
+//					onsole.log("Saved item " + index + " to storage with _id = " + _id);
+//				});
+>>>>>>> fixing JSON loading
 				//get the list of data
 				getData();
 			}
-		})		
-	} else {
+		})
+};
+//} else {
+	var loadXML = function(dataXml) {
 		console.log('Loading xml document');
 		$.ajax({
 			url: "js/pebbles.xml",
@@ -91,9 +106,9 @@ var loadInfo = function(dataLoad) {
 				getData();	
 			}
 		})	
-	}
+	};
 
-};//end data load
+//};//end data load
 
 //store the data into local storage
 	var storeTheData = function() {
@@ -306,11 +321,11 @@ var getData = function() {
 		
 		//look for data, and then load JSON if empty
 		if (!localStorage.length) {
-			var verify = confirm('No Pebbles have been saved. Load sample JSON data by choosing OK, or select cancel to load XML.')
+			var verify = confirm('No Pebbles have been saved. Load sample XML data by choosing OK.')
 			if(verify) {
-				loadInfo('json');	
+				loadXML();	
 			} else {
-				loadInfo('xml');
+				//loadXML();
 			};			
 		};		
 		
