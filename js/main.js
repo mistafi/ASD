@@ -12,7 +12,7 @@ var clearErrors = function() {
 	$('#messagesArray').empty().hide();
 };
 
-
+ 
 
 //load data in ajax and xml
 var loadJSON = function(dataJson) {
